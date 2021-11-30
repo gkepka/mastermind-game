@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Circle?>
+<VBox fx:controller="controller.HintPegController"
+      xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER" prefHeight="46.0" prefWidth="46.0">
+    <children>
+        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="64.0">
+            <children>
+                <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="23.0" prefWidth="64.0">
+            <children>
+                <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

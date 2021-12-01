@@ -1,28 +1,48 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import model.CodePeg;
 
-public class CodePegController {
+import java.io.IOException;
+
+public class CodePegController extends VBox {
 
     @FXML
-    private Circle button; // TODO: chujowa nazwa, niech ktoś zmieni
+    private Circle pegButton;
 
     private CodePeg peg;
 
-    @FXML
+    public CodePegController() {
+        super();
+
+        try {
+            var url = getClass().getResource("/view/codePegView.fxml");
+            var loader = new FXMLLoader(url);
+
+            loader.setRoot(this);
+            loader.setController(this);
+            loader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    // @FXML
     public void initialize() {
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (peg == null) return; // TODO: wylaczyc handler jak kliknie sie checkmark
+        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            // TODO: wylaczyc handler jak kliknie sie checkmark
+            if (peg == null) return;
+
             peg.cycleColor();
         });
     }
 
     public void setModel(CodePeg peg) {
         this.peg = peg;
-        button.fillProperty().bind(peg.colorObjectProperty());
+        pegButton.fillProperty().bind(peg.colorObjectProperty());
     }
 }

@@ -12,9 +12,8 @@ public class Code {
     private final List<CodePeg> codePegs = new ArrayList<>(PEGS_COUNT);
     private final BooleanProperty finalised = new SimpleBooleanProperty(false);
 
-
     public Code() {
-        for (int i = 0; i<PEGS_COUNT; i++) {
+        for (int i = 0; i < PEGS_COUNT; i++) {
             codePegs.add(new CodePeg(this));
         }
     }
@@ -34,5 +33,4 @@ public class Code {
     public BooleanProperty finalisedProperty() {
         return finalised;
     }
-
 }

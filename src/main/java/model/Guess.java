@@ -18,7 +18,9 @@ public class Guess {
 
     public void verifyGuess() {
         if (verified) return;
-        Object result = board.verifyGuess(this); // TODO: board niech zwraca listę stringów czy enumów jakichś
+
+        // TODO: board niech zwraca listę stringów czy enumów jakichś
+        Object result = board.verifyGuess(this);
 //        hints = ???
         verified = true;
     }

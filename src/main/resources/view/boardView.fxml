@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
+<?import controller.GuessController?>
 
-<VBox fx:controller="controller.BoardController" fx:id="root" alignment="CENTER" minHeight="620.0" minWidth="299.0" prefHeight="620.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <fx:include fx:id="guess" source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-    <fx:include source="guessView.fxml" />
-</VBox>
+<fx:root type="javafx.scene.layout.VBox"
+         alignment="CENTER"
+         minHeight="620.0"
+         minWidth="299.0"
+         prefHeight="620.0"
+         prefWidth="356.0"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <GuessController fx:id="guess"/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+    <GuessController/>
+</fx:root>

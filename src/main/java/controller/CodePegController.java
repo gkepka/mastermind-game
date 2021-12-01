@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
@@ -15,6 +16,12 @@ public class CodePegController extends VBox {
     private Circle pegButton;
 
     private CodePeg peg;
+
+    private EventHandler cycleColor = (e) -> {
+    // TODO: wylaczyc handler jak kliknie sie checkmark
+            if (CodePegController.this.peg == null) return;
+            CodePegController.this.peg.cycleColor();
+    };
 
     public CodePegController() {
         super();
@@ -33,16 +40,15 @@ public class CodePegController extends VBox {
 
     // @FXML
     public void initialize() {
-        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            // TODO: wylaczyc handler jak kliknie sie checkmark
-            if (peg == null) return;
-
-            peg.cycleColor();
-        });
+        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
     }
 
     public void setModel(CodePeg peg) {
         this.peg = peg;
         pegButton.fillProperty().bind(peg.colorObjectProperty());
+    }
+
+    public void deactivate() {
+        pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
     }
 }

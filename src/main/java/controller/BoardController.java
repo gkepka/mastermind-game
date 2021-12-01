@@ -2,18 +2,20 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import model.Board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController extends VBox {
 
-    @FXML
-    private GuessController guess;
     private Board board;
     private List<GuessController> guesses;
+    private GuessController currentGuess;
+    private int guessCount = 0;
 
     public BoardController() {
         try {
@@ -28,8 +30,24 @@ public class BoardController extends VBox {
         }
     }
 
+    public void initialize() {
+        guesses = new ArrayList<>();
+        for (Node child : this.getChildren()) {
+            if (child instanceof GuessController) {
+                guesses.add((GuessController) child);
+            }
+        }
+        currentGuess = guesses.get(guessCount);
+    }
+
     public void setModel(Board board) {
         this.board = board;
-        guess.setModel(board, board.getGuess(0));
+        currentGuess.setModel(board, board.getGuess(guessCount), this);
+    }
+
+    public void nextGuess() {
+        guessCount++;
+        currentGuess = guesses.get(guessCount);
+        currentGuess.setModel(board, board.getGuess(guessCount), this);
     }
 }

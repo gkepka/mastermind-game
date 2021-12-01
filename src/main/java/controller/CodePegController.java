@@ -18,7 +18,6 @@ public class CodePegController extends VBox {
     private CodePeg peg;
 
     private EventHandler cycleColor = (e) -> {
-    // TODO: wylaczyc handler jak kliknie sie checkmark
             if (CodePegController.this.peg == null) return;
             CodePegController.this.peg.cycleColor();
     };

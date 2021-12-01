@@ -8,10 +8,11 @@ import java.util.Random;
 
 public class CodePeg {
     private final ObjectProperty<Color> color;
+    private PegColor pegColor;
 
     public CodePeg(Code myGuess) {
-        // TODO: jakiś enum z kolorami
-        color = new SimpleObjectProperty<>(new Color(1, 0, 1, 1));
+        pegColor = PegColor.GRAY;
+        color = new SimpleObjectProperty<>(pegColor.toColor());
     }
 
     public ObjectProperty<Color> colorObjectProperty() {
@@ -23,8 +24,7 @@ public class CodePeg {
     }
 
     public void cycleColor() {
-        // TODO: jakiś enum z kolorami
-        Random random = new Random();
-        this.color.setValue(new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1));
+        pegColor = pegColor.next();
+        this.color.setValue(pegColor.toColor());
     }
 }

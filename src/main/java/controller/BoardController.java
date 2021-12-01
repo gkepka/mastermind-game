@@ -47,7 +47,12 @@ public class BoardController extends VBox {
 
     public void nextGuess() {
         guessCount++;
-        currentGuess = guesses.get(guessCount);
-        currentGuess.setModel(board, board.getGuess(guessCount), this);
+        if (guessCount < guesses.size()) {
+            currentGuess = guesses.get(guessCount);
+            currentGuess.setModel(board, board.getGuess(guessCount), this);
+        } else {
+            // TODO: wyświetlanie kodu
+            System.out.println("Last check");
+        }
     }
 }

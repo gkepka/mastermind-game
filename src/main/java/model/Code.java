@@ -33,4 +33,10 @@ public class Code {
     public BooleanProperty finalisedProperty() {
         return finalised;
     }
+
+    public void deactivatePegs() {
+        for (CodePeg peg : codePegs) {
+            peg.deactivate();
+        }
+    }
 }

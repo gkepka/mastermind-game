@@ -1,5 +1,8 @@
 package controller;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,16 +25,13 @@ public class GuessController extends HBox {
     private Guess guess;
     private Board board;
     private List<CodePegController> codePegs;
-    private BoardController boardController;
     private EventHandler check = event -> {
         if (guess == null || guess.isVerified()) return;
         guess.verifyGuess();
-        for (var codePeg : codePegs) {
-            codePeg.deactivate();
-        }
-        boardController.nextGuess();
         System.out.println("weryfikacja działa");
     };
+
+    private ObjectProperty<Boolean> isActive;
 
     public GuessController() {
         try {
@@ -55,19 +55,21 @@ public class GuessController extends HBox {
             }
         }
         checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, check);
+        isActive = new SimpleObjectProperty<>();
     }
 
-    public void setModel(Board board, Guess guess, BoardController boardController) {
+    public void setModel(Board board, Guess guess) {
         this.board = board;
         this.guess = guess;
-        this.boardController = boardController;
-
+        this.guess.activate();
+        isActive.bind(guess.isActiveObjectProperty());
+        isActive.addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && !newValue) {
+                checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, check);
+            }
+        });
         // TODO: Wymyśleć lepszy sposób na ustawianie modeli
         codePegs.forEach(codePeg -> codePeg.setModel(guess.getMyCode().getCodePeg(codePegs.indexOf(codePeg))));
-    }
-
-    public void deactivate() {
-        checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, check);
     }
 
 }

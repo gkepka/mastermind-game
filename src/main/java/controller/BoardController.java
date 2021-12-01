@@ -48,6 +48,7 @@ public class BoardController extends VBox {
     public void nextGuess() {
         guessCount++;
         if (guessCount < guesses.size()) {
+            currentGuess.deactivate();
             currentGuess = guesses.get(guessCount);
             currentGuess.setModel(board, board.getGuess(guessCount), this);
         } else {

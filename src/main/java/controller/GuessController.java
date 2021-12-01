@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,6 +23,15 @@ public class GuessController extends HBox {
     private Board board;
     private List<CodePegController> codePegs;
     private BoardController boardController;
+    private EventHandler check = event -> {
+        if (guess == null || guess.isVerified()) return;
+        guess.verifyGuess();
+        for (var codePeg : codePegs) {
+            codePeg.deactivate();
+        }
+        boardController.nextGuess();
+        System.out.println("weryfikacja działa");
+    };
 
     public GuessController() {
         try {
@@ -44,16 +54,7 @@ public class GuessController extends HBox {
                 codePegs.add((CodePegController) child);
             }
         }
-
-        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (guess == null || guess.isVerified()) return;
-            guess.verifyGuess();
-            for (var codePeg : codePegs) {
-                codePeg.deactivate();
-            }
-            boardController.nextGuess();
-            System.out.println("weryfikacja działa");
-        });
+        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, check);
     }
 
     public void setModel(Board board, Guess guess, BoardController boardController) {
@@ -63,6 +64,10 @@ public class GuessController extends HBox {
 
         // TODO: Wymyśleć lepszy sposób na ustawianie modeli
         codePegs.forEach(codePeg -> codePeg.setModel(guess.getMyCode().getCodePeg(codePegs.indexOf(codePeg))));
+    }
+
+    public void deactivate() {
+        checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, check);
     }
 
 }

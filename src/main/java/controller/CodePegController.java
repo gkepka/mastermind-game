@@ -44,7 +44,7 @@ public class CodePegController extends VBox {
 
     public void setModel(CodePeg peg) {
         this.peg = peg;
-        pegButton.fillProperty().bind(peg.colorObjectProperty());
+        pegButton.fillProperty().bind(peg.getColorProperty());
     }
 
     public void deactivate() {

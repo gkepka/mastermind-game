@@ -15,7 +15,7 @@ public class CodePeg {
         color = new SimpleObjectProperty<>(pegColor.toColor());
     }
 
-    public ObjectProperty<Color> colorObjectProperty() {
+    public ObjectProperty<Color> getColorProperty() {
         return color;
     }
 

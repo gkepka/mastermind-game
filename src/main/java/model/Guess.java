@@ -15,7 +15,6 @@ public class Guess {
         this.myCode = myCode;
     }
 
-
     public void verifyGuess() {
         if (verified) return;
 

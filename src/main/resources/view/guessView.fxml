@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import controller.CodePegController?>
+
+<fx:root type="javafx.scene.layout.HBox"
+         xmlns:fx="http://javafx.com/fxml/1"
+         prefHeight="42.0"
+         prefWidth="321.0"
+         alignment="CENTER">
+    <fx:include source="hintPegView.fxml" />
+
+    <CodePegController fx:id="codePeg1"/>
+    <CodePegController fx:id="codePeg2"/>
+    <CodePegController fx:id="codePeg3"/>
+    <CodePegController fx:id="codePeg4"/>
+
+    <VBox alignment="CENTER" prefHeight="42.0" prefWidth="37.0">
+        <SVGPath fx:id="checkmark" content="M9 22l-10-10.598 2.798-2.859 7.149 7.473 13.144-14.016 2.909 2.806z"/>
+    </VBox>
+</fx:root>

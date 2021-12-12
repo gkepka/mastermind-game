@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1"
+         alignment="CENTER" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
+         minWidth="40.0" prefHeight="40.0" prefWidth="40.0" xmlns="http://javafx.com/javafx/11.0.1">
+
+      <Circle fx:id="pegButton" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE"/>
+
+</fx:root>

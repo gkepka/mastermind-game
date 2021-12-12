@@ -10,16 +10,5 @@
          prefHeight="620.0"
          prefWidth="356.0"
          xmlns:fx="http://javafx.com/fxml/1">
-    <GuessController fx:id="guess"/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
-    <GuessController/>
+
 </fx:root>

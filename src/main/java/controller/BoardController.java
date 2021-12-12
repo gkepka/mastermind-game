@@ -28,20 +28,14 @@ public class BoardController extends VBox {
         }
     }
 
-    @FXML
-    public void initialize() {
-        guesses = new ArrayList<>(Board.GUESS_COUNT);
-        for (Node child : this.getChildren()) {
-            if (child instanceof GuessController) {
-                guesses.add((GuessController) child);
-            }
-        }
-    }
-
     public void setModel(Board board) {
         this.board = board;
-        for (int i = 0; i<Board.GUESS_COUNT; i++) {
-            guesses.get(i).setModel(board.getGuess(i));
+        guesses = new ArrayList<>(board.getGuessCount());
+        for (int i = 0; i<board.getGuessCount(); i++) {
+            GuessController guessController = new GuessController();
+            guessController.setModel(board.getGuess(i));
+            guesses.add(guessController);
         }
+        this.getChildren().addAll(guesses);
     }
 }

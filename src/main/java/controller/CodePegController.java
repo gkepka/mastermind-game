@@ -1,5 +1,6 @@
 package controller;
 
+import events.PegClickedEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +17,16 @@ public class CodePegController extends VBox {
     private Circle pegButton;
 
     private CodePeg peg;
+    private boolean clicked = false;
 
     private final EventHandler<MouseEvent> cycleColor = event -> {
-            if (CodePegController.this.peg == null) return;
-            CodePegController.this.peg.cycleColor();
+            if (peg == null) return;
+            peg.cycleColor();
+            if(!clicked) {
+                this.fireEvent(new PegClickedEvent());
+                clicked = true;
+                System.out.println("Event fired!");
+            }
     };
 
     public CodePegController() {

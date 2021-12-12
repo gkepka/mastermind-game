@@ -12,11 +12,18 @@ public class Code {
     private final List<CodePeg> codePegs = new ArrayList<>(PEGS_COUNT);
     private final BooleanProperty finalised = new SimpleBooleanProperty(false);
 
-    public Code() {
+    public Code(Guess guess) {
         for (int i = 0; i < PEGS_COUNT; i++) {
-            codePegs.add(new CodePeg(this));
+            codePegs.add(new CodePeg(guess));
         }
     }
+
+    public Code() {
+        for (int i = 0; i < PEGS_COUNT; i++) {
+            codePegs.add(new CodePeg());
+        }
+    }
+
 
     public CodePeg getCodePeg(int index) {
         return codePegs.get(index);
@@ -32,5 +39,14 @@ public class Code {
 
     public BooleanProperty finalisedProperty() {
         return finalised;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (var peg : codePegs) {
+            result.append(peg.toString()).append(" ");
+        }
+        return result.toString();
     }
 }

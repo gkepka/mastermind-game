@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController extends VBox {
-    private Board board;
     private List<GuessController> guesses;
-    private GuessController currentGuess;
-    private int guessCount = 0;
+    private Board board;
 
     public BoardController() {
         try {
@@ -32,29 +30,18 @@ public class BoardController extends VBox {
 
     @FXML
     public void initialize() {
-        guesses = new ArrayList<>();
+        guesses = new ArrayList<>(Board.GUESS_COUNT);
         for (Node child : this.getChildren()) {
             if (child instanceof GuessController) {
                 guesses.add((GuessController) child);
             }
         }
-        currentGuess = guesses.get(guessCount);
     }
 
     public void setModel(Board board) {
         this.board = board;
-        currentGuess.setModel(board, board.getGuess(guessCount), this);
-    }
-
-    public void nextGuess() {
-        guessCount++;
-        if (guessCount < guesses.size()) {
-            currentGuess.deactivate();
-            currentGuess = guesses.get(guessCount);
-            currentGuess.setModel(board, board.getGuess(guessCount), this);
-        } else {
-            // TODO: wyświetlanie kodu
-            System.out.println("Last check");
+        for (int i = 0; i<Board.GUESS_COUNT; i++) {
+            guesses.get(i).setModel(board.getGuess(i));
         }
     }
 }

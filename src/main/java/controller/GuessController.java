@@ -1,19 +1,18 @@
 package controller;
 
+import events.PegClickedEvent;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.SVGPath;
-import model.Board;
+import model.Code;
 import model.Guess;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuessController extends HBox {
 
@@ -28,14 +27,22 @@ public class GuessController extends HBox {
 
 
     private Guess guess;
-    private Board board;
     private BoardController boardController;
-    private final EventHandler<MouseEvent> check = event -> {
-        if (guess == null || guess.isVerified()) return;
+    private final IntegerProperty touchedCodePegs = new SimpleIntegerProperty(0);
+
+    private final EventHandler<MouseEvent> checkmarkClickedHandler = event -> {
+        if (guess == null || !guess.isActive()) return;
         guess.verifyGuess();
-        codeController.deactivate();
-        boardController.nextGuess();
         System.out.println("weryfikacja działa");
+        codeController.deactivate();
+        this.deactivate();
+    };
+
+    private final EventHandler<PegClickedEvent> pegClickedEventEventHandler = event -> {
+        touchedCodePegs.set(touchedCodePegs.get()+1);
+        if (touchedCodePegs.get() == 4) {
+            System.out.println("Teraz się powinien checkmark pojawić.");
+        }
     };
 
     public GuessController() {
@@ -52,21 +59,19 @@ public class GuessController extends HBox {
         }
     }
 
-    @FXML
-    public void initialize() {
-        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, check);
-    }
-
-    public void setModel(Board board, Guess guess, BoardController boardController) {
-        this.board = board;
+    public void setModel(Guess guess) {
         this.guess = guess;
-        this.boardController = boardController;
-
+        checkmark.visibleProperty().bind(
+                // checkmark appears if the guess is active (current) and all pegs have been clicked once
+                (guess.activeProperty().and(touchedCodePegs.isEqualTo(Code.PEGS_COUNT)))
+        );
+        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, checkmarkClickedHandler);
+        this.addEventHandler(PegClickedEvent.PEG_CLICKED, pegClickedEventEventHandler);
         codeController.setModel(guess.getMyCode());
     }
 
     public void deactivate() {
-        checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, check);
+        checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, checkmarkClickedHandler);
+        this.removeEventHandler(PegClickedEvent.PEG_CLICKED, pegClickedEventEventHandler);
     }
-
 }

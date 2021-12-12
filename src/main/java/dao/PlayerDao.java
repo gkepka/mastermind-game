@@ -5,15 +5,15 @@ import model.Player;
 import java.util.Optional;
 
 public class PlayerDao {
-    public void save(){
+    public void save() {
         //TODO
     }
 
-    public void update(){
+    public void update() {
         //TODO
     }
 
-    public Optional<Player> create(final String login, final String name){
+    public Optional<Player> create(final String login, final String name) {
         //TODO
         return Optional.empty();
     }

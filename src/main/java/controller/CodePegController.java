@@ -44,11 +44,6 @@ public class CodePegController extends VBox {
         }
     }
 
-    @FXML
-    public void initialize() {
-        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
-    }
-
     public void setModel(CodePeg peg) {
         this.peg = peg;
         pegButton.fillProperty().bind(peg.getColorProperty());
@@ -56,5 +51,9 @@ public class CodePegController extends VBox {
 
     public void deactivate() {
         pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
+    }
+
+    public void activate() {
+        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
     }
 }

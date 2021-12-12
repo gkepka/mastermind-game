@@ -26,7 +26,7 @@ public class MasterMind extends Application {
             // set initial data into controller
             MainController controller = loader.getController();
             // TODO: gra będzie tworzona po zalogowaniu się i wybraniu poziomu trudności w menu
-            Game game = new Game(new Player("test123", "test"), 2);
+            Game game = new Game(new Player("test123", "test"), 12);
             controller.setModel(game);
             // add layout to a scene and show them all
             configureStage(primaryStage, rootLayout);

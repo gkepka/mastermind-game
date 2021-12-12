@@ -51,4 +51,10 @@ public class CodeController extends HBox {
             codePeg.deactivate();
         }
     }
+
+    public void activate() {
+        for (var codePeg : codePegs) {
+            codePeg.activate();
+        }
+    }
 }

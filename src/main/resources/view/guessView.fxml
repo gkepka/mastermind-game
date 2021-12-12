@@ -15,7 +15,7 @@
     <!-- Te  regiony tu mają zostać, rozpychają guessa -->
     <!-- Chyba że ktoś z was zna lepszy sposób środkowania div'a-->
     <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
-    <HintPegController fx:id="hintPeg"/>
+    <HintPegController fx:id="hintPegController"/>
     <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
     <CodeController fx:id="codeController"/>
     <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />

@@ -48,6 +48,7 @@ public class GuessController extends HBox {
     private final ChangeListener<Boolean> backgroundChangeHandler = (observable, oldValue, newValue) -> {
         if(newValue) {
             this.getStyleClass().add(CSS_CLASS);
+            codeController.activate();
         }
         else {
             this.getStyleClass().remove(CSS_CLASS);
@@ -82,6 +83,7 @@ public class GuessController extends HBox {
         );
 
         codeController.setModel(guess.getMyCode());
+        hintPegController.setModel(guess.getHints());
     }
 
     private void addHandlers() {

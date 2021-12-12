@@ -49,4 +49,8 @@ public class Code {
         }
         return result.toString();
     }
+
+    public List<CodePeg> getCodePegs() {
+        return codePegs;
+    }
 }

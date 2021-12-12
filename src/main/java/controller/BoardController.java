@@ -23,12 +23,14 @@ public class BoardController extends VBox {
 
             loader.setRoot(this);
             loader.setController(this);
+            loader.setClassLoader(getClass().getClassLoader());
             loader.load();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    @FXML
     public void initialize() {
         guesses = new ArrayList<>();
         for (Node child : this.getChildren()) {

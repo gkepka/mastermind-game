@@ -18,6 +18,7 @@ public class MasterMind extends Application {
             // load layout from FXML file
             var loader = new FXMLLoader();
             loader.setLocation(MasterMind.class.getResource("view/mainView.fxml"));
+            loader.setClassLoader(getClass().getClassLoader());
             BorderPane rootLayout = loader.load();
 
             // set initial data into controller

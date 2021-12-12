@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import controller.CodePegController?>
+<fx:root type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+         maxHeight="40.0" maxWidth="160.0" minHeight="40.0"
+         minWidth="160.0" prefHeight="40.0" prefWidth="160.0">
+
+    <CodePegController/>
+    <CodePegController/>
+    <CodePegController/>
+    <CodePegController/>
+
+</fx:root>

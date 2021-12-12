@@ -4,7 +4,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
 
 public class CodePeg {
     private final ObjectProperty<Color> color;

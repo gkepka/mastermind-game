@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Circle?>
-<VBox fx:controller="controller.HintPegController"
+<fx:root type="javafx.scene.layout.VBox"
       xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER" prefHeight="46.0" prefWidth="46.0">
     <children>
@@ -24,4 +24,4 @@
             </children>
         </HBox>
     </children>
-</VBox>
+</fx:root>

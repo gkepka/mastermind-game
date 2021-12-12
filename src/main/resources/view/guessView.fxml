@@ -8,14 +8,19 @@
 
 <fx:root type="javafx.scene.layout.HBox"
          xmlns:fx="http://javafx.com/fxml/1"
-         prefHeight="42.0"
-         prefWidth="321.0"
+         maxHeight="46.0" maxWidth="300.0" minHeight="46.0"
+         minWidth="300.0" prefHeight="46.0" prefWidth="300.0"
          alignment="CENTER">
 
+    <!-- Te  regiony tu mają zostać, rozpychają guessa -->
+    <!-- Chyba że ktoś z was zna lepszy sposób środkowania div'a-->
+    <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
     <HintPegController fx:id="hintPeg"/>
+    <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
     <CodeController fx:id="codeController"/>
-
-    <VBox alignment="CENTER" fx:id="checkmark" prefHeight="42.0" prefWidth="37.0">
+    <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
+    <VBox alignment="CENTER" fx:id="checkmark" prefHeight="40.0" prefWidth="35.0">
         <SVGPath content="M9 22l-10-10.598 2.798-2.859 7.149 7.473 13.144-14.016 2.909 2.806z"/>
     </VBox>
+    <Region prefHeight="46.0" HBox.hgrow="ALWAYS" />
 </fx:root>

@@ -23,9 +23,9 @@ public class CodePegController extends VBox {
             if (peg == null) return;
             peg.cycleColor();
             if(!clicked) {
+                System.out.println("Event fired!");
                 this.fireEvent(new PegClickedEvent());
                 clicked = true;
-                System.out.println("Event fired!");
             }
     };
 

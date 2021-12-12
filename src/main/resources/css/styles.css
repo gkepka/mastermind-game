@@ -1,1 +1,5 @@
 /* kto się chce bawić w środkowanie divów? */
+/* no sam muszę niestety */
+.currentGuess {
+    -fx-background-color: #F0F8FF;
+}

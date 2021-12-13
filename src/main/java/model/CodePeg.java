@@ -9,13 +9,13 @@ public class CodePeg {
     private final ObjectProperty<Color> color;
     private CodePegColor codePegColor;
 
-    public CodePeg(Guess myGuess) {
+    public CodePeg() {
         codePegColor = CodePegColor.GRAY;
         color = new SimpleObjectProperty<>(codePegColor.toColor());
     }
 
-    public CodePeg() {
-        codePegColor = CodePegColor.getRandomColor();
+    public CodePeg(CodePegColor codePegColor) {
+        this.codePegColor = codePegColor;
         color = new SimpleObjectProperty<>(codePegColor.toColor());
     }
 
@@ -27,8 +27,16 @@ public class CodePeg {
         return color.get();
     }
 
-    public void cycleColor() {
-        codePegColor = codePegColor.next();
+    public void nextColor() {
+        setColor(codePegColor.next());
+    }
+
+    public void prevColor() {
+        setColor(codePegColor.prev());
+    }
+
+    private void setColor(CodePegColor codePegColor) {
+        this.codePegColor = codePegColor;
         this.color.setValue(codePegColor.toColor());
     }
 

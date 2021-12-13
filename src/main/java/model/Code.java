@@ -12,15 +12,16 @@ public class Code {
     private final List<CodePeg> codePegs = new ArrayList<>(PEGS_COUNT);
     private final BooleanProperty finalised = new SimpleBooleanProperty(false);
 
-    public Code(Guess guess) {
-        for (int i = 0; i < PEGS_COUNT; i++) {
-            codePegs.add(new CodePeg(guess));
+    public Code(boolean isGuess) {
+        if (isGuess) {
+            for (int i = 0; i < PEGS_COUNT; i++) {
+                codePegs.add(new CodePeg());
+            }
         }
-    }
-
-    public Code() {
-        for (int i = 0; i < PEGS_COUNT; i++) {
-            codePegs.add(new CodePeg());
+        else {
+            for (int i = 0; i < PEGS_COUNT; i++) {
+                codePegs.add(new CodePeg(CodePegColor.getRandomColor()));
+            }
         }
     }
 

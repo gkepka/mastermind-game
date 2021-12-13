@@ -11,7 +11,7 @@ public enum HintPegStatus {
     public Color toColor() {
         return switch (this) {
             case UNSET         -> Color.GRAY;
-            case WRONG         -> Color.BLACK;
+            case WRONG         -> Color.RED;
             case CORRECT_COLOR -> Color.YELLOW;
             case CORRECT       -> Color.GREEN;
         };

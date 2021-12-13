@@ -32,7 +32,7 @@ public class BoardController extends VBox {
         this.board = board;
         guesses = new ArrayList<>(board.getGuessCount());
         for (int i = 0; i<board.getGuessCount(); i++) {
-            GuessController guessController = new GuessController();
+            var guessController = new GuessController();
             guessController.setModel(board.getGuess(i));
             guesses.add(guessController);
         }

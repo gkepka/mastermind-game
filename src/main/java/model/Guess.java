@@ -15,7 +15,7 @@ public class Guess {
 
     public Guess(Board board) {
         this.board = board;
-        this.myCode = new Code(this);
+        this.myCode = new Code(true);
         for (int i = 0; i<HintPeg.PEGS_COUNT; i++) {
             hints.add(new HintPeg());
         }

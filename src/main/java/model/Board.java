@@ -2,12 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class Board {
     private final ArrayList<Guess> guesses = new ArrayList<>();
-    private final Code code = new Code();
+    private final Code code = new Code(false);
     private final Game game;
     private final int guessCount;
     private int currentGuessIdx = 0;

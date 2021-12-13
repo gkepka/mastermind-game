@@ -6,9 +6,9 @@ import java.util.Random;
 public enum CodePegColor {
     GRAY,
     RED,
-    YELLOW,
-    WHITE,
-    BLACK,
+    GOLD,
+    TEAL,
+    CYAN,
     GREEN;
 
     private static final int length = values().length;
@@ -19,19 +19,22 @@ public enum CodePegColor {
     }
 
     public Color toColor() {
-        // TODO: ładniejsze kolory
         return switch (this) {
-            case GRAY   -> Color.GRAY;
-            case RED    -> Color.RED;
-            case YELLOW -> Color.YELLOW;
-            case WHITE  -> Color.WHITE;
-            case BLACK  -> Color.BLACK;
-            case GREEN  -> Color.GREEN;
-            default     -> Color.PINK;
+            case GRAY  -> Color.GRAY;
+            case RED   -> Color.ORANGERED;
+            case GOLD  -> Color.GOLD;
+            case TEAL  -> Color.TEAL;
+            case CYAN  -> Color.CYAN;
+            case GREEN -> Color.LAWNGREEN;
         };
     }
 
     public CodePegColor next() {
         return values()[(this.ordinal() % (length-1))+1]; // skips GRAY
+    }
+
+    public CodePegColor prev() {
+        if (this == GRAY) return values()[length-1];
+        return values()[length-this.ordinal()];
     }
 }

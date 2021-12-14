@@ -13,18 +13,13 @@ public class Code {
     private final BooleanProperty finalised = new SimpleBooleanProperty(false);
 
     public Code(boolean isGuess) {
-        if (isGuess) {
-            for (int i = 0; i < PEGS_COUNT; i++) {
-                codePegs.add(new CodePeg());
-            }
-        }
-        else {
-            for (int i = 0; i < PEGS_COUNT; i++) {
-                codePegs.add(new CodePeg(CodePegColor.getRandomColor()));
-            }
+        for (int i = 0; i < PEGS_COUNT; i++) {
+            codePegs.add(isGuess
+                    ? new CodePeg()
+                    : new CodePeg(CodePegColor.getRandomColor())
+            );
         }
     }
-
 
     public CodePeg getCodePeg(int index) {
         return codePegs.get(index);

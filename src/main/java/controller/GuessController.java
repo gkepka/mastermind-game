@@ -24,7 +24,6 @@ public class GuessController extends HBox {
     @FXML
     private HintPegController hintPegController;
 
-
     private static final String CSS_CLASS = "currentGuess";
     private final IntegerProperty touchedCodePegs = new SimpleIntegerProperty(0);
     private Guess guess;
@@ -38,6 +37,7 @@ public class GuessController extends HBox {
 
     private final EventHandler<PegClickedEvent> pegClickedHandler = event -> {
         touchedCodePegs.set(touchedCodePegs.get() + 1);
+
         if (touchedCodePegs.get() == 4) {
             System.out.println("Teraz się powinien checkmark pojawić.");
             removePegClickedHandler();
@@ -46,11 +46,10 @@ public class GuessController extends HBox {
 
     // Jak obecny guess stanie się currentGuess (jego activeProperty zrobi się true), to zmień kolor tła.
     private final ChangeListener<Boolean> backgroundChangeHandler = (observable, oldValue, newValue) -> {
-        if(newValue) {
+        if (newValue) {
             this.getStyleClass().add(CSS_CLASS);
             codeController.activate();
-        }
-        else {
+        } else {
             this.getStyleClass().remove(CSS_CLASS);
         }
     };

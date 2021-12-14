@@ -45,7 +45,6 @@ public class CodePeg {
         return codePegColor.name();
     }
 
-
     public boolean isSameColor(CodePeg other) {
         return other.getColor().equals(getColor());
     }

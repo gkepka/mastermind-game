@@ -41,9 +41,13 @@ public class CodeController extends HBox {
     public void setModel(Code myCode) {
         this.myCode = myCode;
 
-        for (int i = 0; i<Code.PEGS_COUNT; i++) {
+        for (int i = 0; i < Code.PEGS_COUNT; i++) {
             codePegs.get(i).setModel(myCode.getCodePeg(i));
         }
+    }
+
+    public Code getModel() {
+        return this.myCode;
     }
 
     public void deactivate() {

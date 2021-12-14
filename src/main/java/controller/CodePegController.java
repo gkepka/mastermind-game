@@ -22,9 +22,13 @@ public class CodePegController extends VBox {
 
     private final EventHandler<MouseEvent> cycleColor = event -> {
             if (peg == null) return;
-            if (event.getButton() == MouseButton.PRIMARY) peg.nextColor();
-            else if (event.getButton() == MouseButton.SECONDARY) peg.prevColor();
-            if(!clicked) {
+
+            switch (event.getButton()) {
+                case PRIMARY -> peg.nextColor();
+                case SECONDARY -> peg.prevColor();
+            }
+
+            if (!clicked) {
                 System.out.println("Event fired!");
                 this.fireEvent(new PegClickedEvent());
                 clicked = true;

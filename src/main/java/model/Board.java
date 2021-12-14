@@ -68,8 +68,8 @@ public class Board {
     }
 
     private void nextGuess() {
-        guesses.get(currentGuessIdx).setActive(false);
-        currentGuessIdx++;
+        guesses.get(currentGuessIdx++).setActive(false);
+
         if (currentGuessIdx < guessCount) {
             guesses.get(currentGuessIdx).setActive(true);
         } else {

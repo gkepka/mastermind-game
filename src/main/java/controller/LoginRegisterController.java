@@ -2,13 +2,11 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 
-public class LoginRegisterController extends Pane {
+public class LoginRegisterController extends TilePane {
     @FXML
     private LoginController loginController;
     @FXML

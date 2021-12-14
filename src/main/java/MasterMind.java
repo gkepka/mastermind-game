@@ -1,54 +1,53 @@
-import controller.MainController;
+import controller.LoginRegisterController;
+import controller.GameController;
 
+import events.ViewUpdateEvent;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.Board;
 import model.Game;
 import model.Player;
-
-import java.io.IOException;
 import java.util.Objects;
 
 public class MasterMind extends Application {
+    private GameController gameController;
+    private LoginRegisterController loginRegisterController;
+    private Stage primaryStage;
+
+    private EventHandler<ViewUpdateEvent> onLogin = e -> {
+        this.configureStage(this.primaryStage, this.gameController);
+    };
+
+    public MasterMind() {
+        this.gameController = new GameController();
+        this.loginRegisterController = new LoginRegisterController();
+    }
 
     @Override
     public void start(Stage primaryStage) {
-        try {
-            var url = getClass().getResource("/view/mainView.fxml");
-            var loader = new FXMLLoader(url);
+        this.primaryStage = primaryStage;
 
-            loader.setClassLoader(getClass().getClassLoader());
-            BorderPane rootLayout = loader.load();
+        Game game = new Game(new Player("test123", "test"), 12);
 
-            MainController controller = loader.getController();
-            // TODO: gra będzie tworzona po zalogowaniu się i wybraniu poziomu trudności w menu
+        gameController.setModel(game);
 
-            Game game = new Game(new Player("test123", "test"), 12);
-            controller.setModel(game);
+        primaryStage.addEventHandler(ViewUpdateEvent.VIEW_UPDATE, onLogin);
 
-            configureStage(primaryStage, rootLayout);
-            primaryStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        configureStage(primaryStage, loginRegisterController);
     }
 
-    private void configureStage(Stage primaryStage, BorderPane rootLayout) {
+    private void configureStage(Stage primaryStage, Parent rootLayout) {
         var scene = new Scene(rootLayout);
-        scene.getStylesheets().add(
-                Objects.requireNonNull(
-                                MasterMind.class.getResource("css/styles.css"))
-                        .toExternalForm()
-        );
+
+        var url = getClass().getResource("css/styles.css");
+        var stylesheet = Objects.requireNonNull(url).toExternalForm();
+        scene.getStylesheets().add(stylesheet);
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("MasterMind \uD83E\uDD76"); // 🥶
+        primaryStage.show();
 
 //        primaryStage.minWidthProperty().bind(rootLayout.minWidthProperty());
 //        primaryStage.minHeightProperty().bind(rootLayout.minHeightProperty());

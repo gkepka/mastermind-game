@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import controller.BoardController?>
+<?import controller.LoginController?>
+
+<fx:root type="BorderPane"
+         minHeight="620.0" minWidth="900"
+         styleClass="root"
+         xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+   <center>
+      <BoardController fx:id="boardController"/>
+   </center>
+</fx:root>

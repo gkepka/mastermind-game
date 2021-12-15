@@ -1,3 +1,4 @@
+import controller.GameSelectionController;
 import controller.LoginRegisterController;
 import controller.GameController;
 
@@ -9,20 +10,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Game;
 import model.Player;
+
+import javax.swing.text.View;
 import java.util.Objects;
 
 public class MasterMind extends Application {
     private GameController gameController;
     private LoginRegisterController loginRegisterController;
+    private GameSelectionController gameSelectionController;
     private Stage primaryStage;
 
     private EventHandler<ViewUpdateEvent> onLogin = e -> {
+        this.configureStage(this.primaryStage, this.gameSelectionController);
+    };
+
+    private EventHandler<ViewUpdateEvent> onNewGame = e -> {
+        // TODO: tutaj utworzenie nowej gry i zastosowanie modelu
         this.configureStage(this.primaryStage, this.gameController);
     };
 
     public MasterMind() {
         this.gameController = new GameController();
         this.loginRegisterController = new LoginRegisterController();
+        this.gameSelectionController = new GameSelectionController();
     }
 
     @Override
@@ -33,7 +43,8 @@ public class MasterMind extends Application {
 
         gameController.setModel(game);
 
-        primaryStage.addEventHandler(ViewUpdateEvent.VIEW_UPDATE, onLogin);
+        primaryStage.addEventHandler(ViewUpdateEvent.USER_LOGON, onLogin);
+        primaryStage.addEventHandler(ViewUpdateEvent.NEW_GAME, onNewGame);
 
         configureStage(primaryStage, loginRegisterController);
     }

@@ -5,12 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public class RegisterController extends Pane {
+public class RegisterController extends TilePane {
     private static final Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
 
     @FXML

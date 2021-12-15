@@ -3,12 +3,16 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<fx:root type="Pane"
-         xmlns="http://javafx.com/javafx/11.0.2"
-         xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="TOP_CENTER" type="TilePane" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
 
-    <VBox alignment="TOP_CENTER" spacing="5.0">
+    <VBox alignment="CENTER_RIGHT" spacing="5.0">
+      <Label text="Rejestracja">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
         <HBox alignment="CENTER_RIGHT" spacing="5.0">
             <Label text="Login:" />
             <TextField fx:id="login" />

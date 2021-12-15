@@ -8,11 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 
-public class LoginController extends Pane {
+public class LoginController extends TilePane {
     @FXML
     private TextField login;
     @FXML
@@ -20,9 +20,10 @@ public class LoginController extends Pane {
     @FXML
     private Button loginButton;
 
-    private final EventHandler<ActionEvent> loginHandler = event -> {
+    private final EventHandler<ActionEvent> loginHandler = e -> {
         // TODO: połączenie z bazą
-        this.fireEvent(new ViewUpdateEvent());
+        var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
+        this.fireEvent(event);
     };
 
     public LoginController() {

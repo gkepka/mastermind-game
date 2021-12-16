@@ -1,3 +1,4 @@
+import controller.GameOverController;
 import controller.GameSelectionController;
 import controller.LoginRegisterController;
 import controller.GameController;
@@ -22,6 +23,7 @@ public class MasterMind extends Application {
     private GameController gameController;
     private LoginRegisterController loginRegisterController;
     private GameSelectionController gameSelectionController;
+    private GameOverController gameOverController;
     private Stage primaryStage;
 
     private EventHandler<ViewUpdateEvent> onLogin = e -> {
@@ -33,10 +35,15 @@ public class MasterMind extends Application {
         this.configureStage(this.primaryStage, this.gameController);
     };
 
+    private EventHandler<ViewUpdateEvent> onGameOver = e -> {
+        this.configureStage(this.primaryStage, this.gameOverController);
+    };
+
     public MasterMind() {
         this.gameController = new GameController();
         this.loginRegisterController = new LoginRegisterController();
         this.gameSelectionController = new GameSelectionController();
+        this.gameOverController = new GameOverController();
     }
 
     @Override
@@ -56,6 +63,7 @@ public class MasterMind extends Application {
 
         primaryStage.addEventHandler(ViewUpdateEvent.USER_LOGON, onLogin);
         primaryStage.addEventHandler(ViewUpdateEvent.NEW_GAME, onNewGame);
+        primaryStage.addEventHandler(ViewUpdateEvent.GAME_FINISHED, onGameOver);
         configureStage(primaryStage, loginRegisterController);
     }
 

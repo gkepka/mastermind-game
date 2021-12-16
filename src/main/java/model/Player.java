@@ -4,6 +4,7 @@ public class Player {
     // TODO: email, hash hasła
     private String login;
     private String name;
+    private Long id;
 
     public Player(){}
 
@@ -18,5 +19,13 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

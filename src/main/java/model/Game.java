@@ -7,6 +7,7 @@ public class Game {
     private final Board board;
     private int result = INITIAL_POINTS;
     private boolean gameOver = false;
+    private Long id;
 
     public Game(Player player, int guessCount){
         this.player = player;
@@ -38,5 +39,13 @@ public class Game {
 
     private void calculatePoints() {
         result -= 1000*(((double) board.getFailedGuesses())/ board.getGuessCount());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

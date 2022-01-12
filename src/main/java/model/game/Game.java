@@ -19,6 +19,7 @@ public class Game {
     }
 
     public int getResult() {
+        this.calculatePoints();
         return result;
     }
 
@@ -42,7 +43,8 @@ public class Game {
     }
 
     private void calculatePoints() {
-        result -= INITIAL_POINTS * (((double) board.getFailedGuesses()) / board.getGuessCount());
+        double penalty = INITIAL_POINTS * ((double) board.getFailedGuesses()) / board.getGuessCount();
+        result = (int) (INITIAL_POINTS - penalty);
     }
 
     public Long getId() {

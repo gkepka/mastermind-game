@@ -37,6 +37,8 @@ public class BoardController extends VBox {
             guesses.add(guessController);
         }
 
+        this.getChildren().clear();
+
         Collections.reverse(guesses);
         this.getChildren().addAll(guesses);
     }

@@ -1,5 +1,6 @@
 package controller;
 
+import events.GameExitEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,10 +28,20 @@ public class GameOverController extends AnchorPane {
             loader.setController(this);
             loader.load();
 
-
+            nextGameButton.addEventHandler(ActionEvent.ACTION, this::onNextGame);
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
+    }
+
+    public void setResultValue(int result) {
+        this.result.setText(
+                String.format("Wynik: %d", result)
+        );
+    }
+
+    public void onNextGame(ActionEvent event) {
+        this.fireEvent(new GameExitEvent());
     }
 }

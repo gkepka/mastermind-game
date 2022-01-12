@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import model.Player;
 
 import java.io.IOException;
 
@@ -15,6 +17,10 @@ public class GameSelectionController extends AnchorPane {
 
     private static final Integer[] difficultyLevels = { 5, 6, 7, 8, 9, 10, 11, 12 };
 
+    private Player player;
+
+    @FXML
+    private Label playerLabel;
     @FXML
     private Button newGame;
     @FXML
@@ -43,5 +49,14 @@ public class GameSelectionController extends AnchorPane {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
+    }
+
+    public Player getModel() {
+        return player;
+    }
+
+    public void setModel(Player player) {
+        this.player = player;
+        playerLabel.setText(String.format("Witaj %s!", player.getLogin()));
     }
 }

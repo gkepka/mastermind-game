@@ -5,6 +5,7 @@ import controller.GameController;
 
 import dao.ConnectionProvider;
 import dao.DatabaseInitializer;
+import events.GameExitEvent;
 import events.GameSelectionEvent;
 import events.PlayerLoginEvent;
 import events.GameFinishedEvent;
@@ -14,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Game;
-import model.Player;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -25,23 +25,29 @@ public class MasterMind extends Application {
     private GameSelectionController gameSelectionController;
     private GameOverController gameOverController;
     private Stage primaryStage;
-    private Player player;
 
     private final EventHandler<PlayerLoginEvent> onLogin = e -> {
-        this.player = e.getPlayer();
+        this.gameSelectionController.setModel(e.getPlayer());
         this.configureStage(this.primaryStage, this.gameSelectionController);
     };
 
     private final EventHandler<GameSelectionEvent> onNewGame = e -> {
-        if (this.player != null) {
-            var game = new Game(this.player, e.getGameDifficulty());
+        var player = this.gameSelectionController.getModel();
+
+        if (player != null) {
+            var game = new Game(player, e.getGameDifficulty());
             this.gameController.setModel(game);
             this.configureStage(this.primaryStage, this.gameController);
         }
     };
 
-    private final EventHandler<GameFinishedEvent> onGameOver = e ->
-            this.configureStage(this.primaryStage, this.gameOverController);
+    private final EventHandler<GameFinishedEvent> onGameOver = e -> {
+        this.gameOverController.setResultValue(e.getResult());
+        this.configureStage(this.primaryStage, this.gameOverController);
+    };
+
+    private final EventHandler<GameExitEvent> onGameExit = e ->
+        this.configureStage(this.primaryStage, this.gameSelectionController);
 
     public MasterMind() {
         this.gameController = new GameController();
@@ -63,11 +69,16 @@ public class MasterMind extends Application {
         primaryStage.addEventHandler(PlayerLoginEvent.PLAYER_LOGIN, onLogin);
         primaryStage.addEventHandler(GameSelectionEvent.GAME_SELECTION, onNewGame);
         primaryStage.addEventHandler(GameFinishedEvent.GAME_FINISHED, onGameOver);
+        primaryStage.addEventHandler(GameExitEvent.GAME_EXIT, onGameExit);
         configureStage(primaryStage, loginRegisterController);
     }
 
     private void configureStage(Stage primaryStage, Parent rootLayout) {
-        var scene = new Scene(rootLayout);
+        var rootScene = rootLayout.getScene();
+
+        var scene = rootScene == null
+                ? new Scene(rootLayout)
+                : rootScene;
 
         var url = getClass().getResource("css/styles.css");
         var stylesheet = Objects.requireNonNull(url).toExternalForm();

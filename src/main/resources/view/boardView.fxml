@@ -8,6 +8,7 @@
          minWidth="299.0"
          prefHeight="620.0"
          prefWidth="356.0"
-         xmlns:fx="http://javafx.com/fxml/1">
+         xmlns:fx="http://javafx.com/fxml/1"
+         style="-fx-background-color: #B49A67">
 
 </fx:root>

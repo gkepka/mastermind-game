@@ -6,6 +6,7 @@ import model.game.Board;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BoardController extends VBox {
@@ -36,6 +37,7 @@ public class BoardController extends VBox {
             guesses.add(guessController);
         }
 
+        Collections.reverse(guesses);
         this.getChildren().addAll(guesses);
     }
 }

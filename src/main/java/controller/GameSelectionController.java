@@ -15,7 +15,8 @@ import java.io.IOException;
 
 public class GameSelectionController extends AnchorPane {
 
-    private static final Integer[] difficultyLevels = { 5, 6, 7, 8, 9, 10, 11, 12 };
+    //                                                { 5, 6, 7, 8, 9, 10, 11, 12 }
+    private static final Integer[] difficultyLevels = { 12, 11, 10, 9, 8, 7, 6, 5 };
 
     private Player player;
 
@@ -44,7 +45,7 @@ public class GameSelectionController extends AnchorPane {
 
             newGame.addEventHandler(ActionEvent.ACTION, onNewGame);
             difficulty.getItems().addAll(difficultyLevels);
-            difficulty.setValue(12);
+            difficulty.setValue(difficultyLevels[0]);
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);

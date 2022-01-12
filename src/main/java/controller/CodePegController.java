@@ -29,16 +29,11 @@ public class CodePegController extends VBox {
             }
 
             if (!clicked) {
-                System.out.println("Event fired!");
                 this.fireEvent(new PegClickedEvent());
                 clicked = true;
             }
     };
 
-    /* TODO:
-        Całą tą klase można w sumie usunąć, razem z jej widokiem (ale nie model).
-        wtedy ten PegClickedEvent też będzie nie potrzebny.
-     */
     public CodePegController() {
         super();
 

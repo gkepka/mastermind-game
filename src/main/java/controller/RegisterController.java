@@ -1,7 +1,7 @@
 package controller;
 
 import dao.PlayerDao;
-import events.ViewUpdateEvent;
+import events.PlayerLoginEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -92,7 +92,7 @@ public class RegisterController extends TilePane {
         var playerOptional = registerPlayer.create(login.getText(), email.getText(), password.getText());
 
         if (playerOptional.isPresent()) {
-            var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
+            var event = new PlayerLoginEvent(playerOptional.get());
             this.fireEvent(event);
         } else {
             this.error("Blad bazy danych",

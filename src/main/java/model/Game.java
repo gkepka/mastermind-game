@@ -1,15 +1,19 @@
 package model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Game {
     public static final int INITIAL_POINTS = 1000;
 
     private final Player player;
     private final Board board;
     private int result = INITIAL_POINTS;
-    private boolean gameOver = false;
+
+    private final BooleanProperty over = new SimpleBooleanProperty(false);
     private Long id;
 
-    public Game(Player player, int guessCount){
+    public Game(Player player, int guessCount) {
         this.player = player;
         this.board = new Board(guessCount, this);
     }
@@ -26,19 +30,19 @@ public class Game {
         return board;
     }
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
+    public void finishGame(boolean gameOver) {
+        this.over.set(gameOver);
 
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-        calculatePoints();
-        System.out.println("Game over!");
+        this.calculatePoints();
         System.out.println("Points: " + result);
     }
 
+    public BooleanProperty overProperty() {
+        return over;
+    }
+
     private void calculatePoints() {
-        result -= 1000*(((double) board.getFailedGuesses())/ board.getGuessCount());
+        result -= INITIAL_POINTS * (((double) board.getFailedGuesses()) / board.getGuessCount());
     }
 
     public Long getId() {

@@ -1,17 +1,15 @@
 package controller;
 
 import dao.PlayerDao;
-import events.ViewUpdateEvent;
+import events.PlayerLoginEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class LoginController extends TilePane {
     @FXML
@@ -41,7 +39,7 @@ public class LoginController extends TilePane {
         var player = loginPlayer.loginCheck(loginText, passwordText);
 
         if (player.isPresent()) {
-            var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
+            var event = new PlayerLoginEvent(player.get());
             this.fireEvent(event);
         } else {
             this.error("Blad logowania",
@@ -65,10 +63,10 @@ public class LoginController extends TilePane {
         }
     }
 
-    private Optional<ButtonType> error(String header, String content) {
+    private void error(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        return alert.showAndWait();
+        alert.showAndWait();
     }
 }

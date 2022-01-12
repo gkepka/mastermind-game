@@ -19,7 +19,7 @@ public class Board {
             guesses.add(new Guess(this));
         }
         guesses.get(0).setActive(true);
-        System.out.println("The code is: " + code.toString());
+        System.out.println("The code is: " + code);
     }
 
     public List<HintPegStatus> verifyGuess(Guess guess) {
@@ -27,7 +27,7 @@ public class Board {
         int correctPegs = 0;
 
         // copy the lists
-        var guessCode = new ArrayList<>(guess.getMyCode().getCodePegs());
+        var guessCode = new ArrayList<>(guess.getCode().getCodePegs());
         var correctCode = new ArrayList<>(code.getCodePegs());
 
         // iterators, because you can't remove from list while iterating with a for loop
@@ -47,20 +47,25 @@ public class Board {
         }
 
         if (correctPegs == Code.PEGS_COUNT) {
-            game.setGameOver(true);
+            game.finishGame(true);
             return status;
         }
 
         // second pass - same color among any that are left
         correctCode.forEach(correctCodePeg -> {
-            var optional = guessCode.stream().filter(guessPeg -> guessPeg.isSameColor(correctCodePeg)).findAny();
+            var optional = guessCode.stream()
+                    .filter(guessPeg -> guessPeg.isSameColor(correctCodePeg))
+                    .findAny();
+
             if (optional.isPresent()) {
                 status.add(HintPegStatus.CORRECT_COLOR);
                 guessCode.remove(optional.get());
             }
         });
 
-        while(status.size() < HintPeg.PEGS_COUNT) status.add(HintPegStatus.WRONG);
+        while(status.size() < HintPeg.PEGS_COUNT)
+            status.add(HintPegStatus.WRONG);
+
         Collections.shuffle(status);
 
         nextGuess();
@@ -73,12 +78,16 @@ public class Board {
         if (currentGuessIdx < guessCount) {
             guesses.get(currentGuessIdx).setActive(true);
         } else {
-            game.setGameOver(true);
+            game.finishGame(true);
         }
     }
 
     public Guess getGuess(int index) {
         return guesses.get(index);
+    }
+
+    public ArrayList<Guess> getGuesses() {
+        return guesses;
     }
 
     public int getGuessCount() {

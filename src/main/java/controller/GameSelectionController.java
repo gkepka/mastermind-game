@@ -1,6 +1,6 @@
 package controller;
 
-import events.ViewUpdateEvent;
+import events.GameSelectionEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,15 +21,9 @@ public class GameSelectionController extends AnchorPane {
     private ChoiceBox<Integer> difficulty;
 
     private final EventHandler<ActionEvent> onNewGame = e -> {
-        // TODO: jakoś trzeba poinformować MasterMind'a o wybranym poziomie trudności
-        // żeby przygotował i zastosował odpowiedni model
-        // można np. zrobić pole w ViewUpdateEvent
-
         var gameDifficulty = difficulty.getValue();
-        // teraz tylko przekazać wyżej
+        var event = new GameSelectionEvent(gameDifficulty);
 
-        var event = new ViewUpdateEvent(ViewUpdateEvent.NEW_GAME);
-        event.setParameter("gameDifficulty", gameDifficulty);
         this.fireEvent(event);
     };
 

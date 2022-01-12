@@ -29,7 +29,9 @@ public class GuessController extends HBox {
     private Guess guess;
 
     private final EventHandler<MouseEvent> checkmarkClickedHandler = event -> {
-        if (guess == null || !guess.isActive()) return;
+        if (guess == null || !guess.isActive())
+            return;
+
         guess.verifyGuess();
         codeController.deactivate();
         removeCheckmarkClickedHandler();
@@ -39,7 +41,6 @@ public class GuessController extends HBox {
         touchedCodePegs.set(touchedCodePegs.get() + 1);
 
         if (touchedCodePegs.get() == 4) {
-            System.out.println("Teraz się powinien checkmark pojawić.");
             removePegClickedHandler();
         }
     };
@@ -81,7 +82,7 @@ public class GuessController extends HBox {
                 (guess.activeProperty().and(touchedCodePegs.isEqualTo(Code.PEGS_COUNT)))
         );
 
-        codeController.setModel(guess.getMyCode());
+        codeController.setModel(guess.getCode());
         hintPegController.setModel(guess.getHints());
     }
 

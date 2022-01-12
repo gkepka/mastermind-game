@@ -5,8 +5,9 @@ import controller.GameController;
 
 import dao.ConnectionProvider;
 import dao.DatabaseInitializer;
-import dao.GameDao;
-import events.ViewUpdateEvent;
+import events.GameSelectionEvent;
+import events.PlayerLoginEvent;
+import events.GameFinishedEvent;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -24,22 +25,23 @@ public class MasterMind extends Application {
     private GameSelectionController gameSelectionController;
     private GameOverController gameOverController;
     private Stage primaryStage;
+    private Player player;
 
-    private final EventHandler<ViewUpdateEvent> onLogin = e -> {
+    private final EventHandler<PlayerLoginEvent> onLogin = e -> {
+        this.player = e.getPlayer();
         this.configureStage(this.primaryStage, this.gameSelectionController);
     };
 
-    private final EventHandler<ViewUpdateEvent> onNewGame = e -> {
-        // TODO: tutaj utworzenie nowej gry i zastosowanie modelu
-        e.getParameter("gameDifficulty").ifPresent(difficulty -> {
-            System.out.printf("Game difficulty: %d%n", difficulty);
+    private final EventHandler<GameSelectionEvent> onNewGame = e -> {
+        if (this.player != null) {
+            var game = new Game(this.player, e.getGameDifficulty());
+            this.gameController.setModel(game);
             this.configureStage(this.primaryStage, this.gameController);
-        });
+        }
     };
 
-    private final EventHandler<ViewUpdateEvent> onGameOver = e -> {
-        this.configureStage(this.primaryStage, this.gameOverController);
-    };
+    private final EventHandler<GameFinishedEvent> onGameOver = e ->
+            this.configureStage(this.primaryStage, this.gameOverController);
 
     public MasterMind() {
         this.gameController = new GameController();
@@ -58,14 +60,9 @@ public class MasterMind extends Application {
             e.printStackTrace();
         }
 
-        Game game = new Game(new Player("test123", "test@gmail.com", "test"), 12);
-
-        gameController.setModel(game);
-        new GameDao().save(game);
-
-        primaryStage.addEventHandler(ViewUpdateEvent.USER_LOGON, onLogin);
-        primaryStage.addEventHandler(ViewUpdateEvent.NEW_GAME, onNewGame);
-        primaryStage.addEventHandler(ViewUpdateEvent.GAME_FINISHED, onGameOver);
+        primaryStage.addEventHandler(PlayerLoginEvent.PLAYER_LOGIN, onLogin);
+        primaryStage.addEventHandler(GameSelectionEvent.GAME_SELECTION, onNewGame);
+        primaryStage.addEventHandler(GameFinishedEvent.GAME_FINISHED, onGameOver);
         configureStage(primaryStage, loginRegisterController);
     }
 
@@ -84,9 +81,6 @@ public class MasterMind extends Application {
             event.consume();
             logout(primaryStage);
         });
-
-//        primaryStage.minWidthProperty().bind(rootLayout.minWidthProperty());
-//        primaryStage.minHeightProperty().bind(rootLayout.minHeightProperty());
     }
 
     private void logout(Stage stage) {

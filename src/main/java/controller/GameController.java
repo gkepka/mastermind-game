@@ -1,10 +1,10 @@
 package controller;
 
 
+import events.GameFinishedEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import model.Board;
 import model.Game;
 
 import java.io.IOException;
@@ -28,13 +28,10 @@ public class GameController extends BorderPane {
         }
     }
 
-    @FXML
-    public void initialize() {
-
-    }
-
     public void setModel(Game game) {
         boardController.setModel(game.getBoard());
+
+        game.overProperty().addListener(over -> this.fireEvent(new GameFinishedEvent(game.getResult())));
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class CodeController extends HBox {
 
     private final List<CodePegController> codePegs = new ArrayList<>(Code.PEGS_COUNT);
-    private Code myCode;
+    private Code code;
 
     public CodeController() {
         try {
@@ -38,16 +38,16 @@ public class CodeController extends HBox {
         }
     }
 
-    public void setModel(Code myCode) {
-        this.myCode = myCode;
+    public void setModel(Code code) {
+        this.code = code;
 
         for (int i = 0; i < Code.PEGS_COUNT; i++) {
-            codePegs.get(i).setModel(myCode.getCodePeg(i));
+            codePegs.get(i).setModel(code.getCodePeg(i));
         }
     }
 
     public Code getModel() {
-        return this.myCode;
+        return this.code;
     }
 
     public void deactivate() {

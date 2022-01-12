@@ -32,18 +32,20 @@ public class HintPegController extends VBox {
     @FXML
     public void initialize() { // temp
         for (Node child : this.getChildren()) {
-            if (!(child instanceof HBox)) throw new IllegalStateException("Dupa");
-            HBox hBox = (HBox) child;
+            if (!(child instanceof HBox hBox))
+                throw new IllegalStateException("");
+
             for (Node peg : hBox.getChildren()) {
-                if (!(peg instanceof Circle)) throw new IllegalStateException("dupa2");
-                Circle temp = (Circle) peg;
+                if (!(peg instanceof Circle temp))
+                    throw new IllegalStateException("");
+
                 hintPegView.add(temp);
             }
         }
     }
 
     public void setModel(List<HintPeg> hintPegs) {
-        for(int i = 0; i<HintPeg.PEGS_COUNT; i++) {
+        for (int i = 0; i < HintPeg.PEGS_COUNT; i++) {
             hintPegView.get(i).fillProperty().bind(hintPegs.get(i).colorObjectProperty());
         }
     }

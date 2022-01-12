@@ -56,7 +56,7 @@ public class MasterMind extends Application {
             e.printStackTrace();
         }
 
-        Game game = new Game(new Player("test123", "test"), 12);
+        Game game = new Game(new Player("test123", "test@gmail.com", "test"), 12);
 
         gameController.setModel(game);
         new GameDao().save(game);

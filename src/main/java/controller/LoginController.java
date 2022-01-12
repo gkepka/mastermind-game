@@ -1,5 +1,6 @@
 package controller;
 
+import dao.PlayerDao;
 import events.ViewUpdateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,8 +23,11 @@ public class LoginController extends TilePane {
 
     private final EventHandler<ActionEvent> loginHandler = e -> {
         // TODO: połączenie z bazą
-        var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
-        this.fireEvent(event);
+        PlayerDao loginPlayer = new PlayerDao();
+        if(loginPlayer.loginCheck(login.getText(),password.getText()).isPresent()) {
+            var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
+            this.fireEvent(event);
+        }
     };
 
     public LoginController() {

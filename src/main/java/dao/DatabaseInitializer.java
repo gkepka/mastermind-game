@@ -11,7 +11,8 @@ public class DatabaseInitializer {
             CREATE TABLE IF NOT EXISTS player(
                 player_id INTEGER PRIMARY KEY,
                 login TEXT,
-                name TEXT
+                email TEXT,
+                password TEXT
             );        
             """;
 

@@ -3,20 +3,20 @@ package controller;
 import dao.PlayerDao;
 import events.ViewUpdateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
+import javafx.util.Pair;
 import model.Player;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class RegisterController extends TilePane {
     private static final Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+    private static final String invalidDataHeader = "Podane dane sa niepoprawne";
 
     @FXML
     private TextField email;
@@ -29,26 +29,6 @@ public class RegisterController extends TilePane {
     @FXML
     private Button registerButton;
 
-    private final EventHandler<ActionEvent> registerHandler = e -> {
-        PlayerDao registerPLayer = new PlayerDao();
-        if(emailPattern.matcher(email.getText()).matches() && password.getLength()>0 && login.getLength()>0
-                && password.getText().equals(confirmPassword.getText())){
-
-            if(!registerPLayer.checkIfTaken(login.getText(), email.getText())){
-                new PlayerDao().create(login.getText(), email.getText(), password.getText());
-            } else {
-                System.out.println("Konto o danym loginie lub mailu jest zajęte");
-            }
-        }else {
-            System.out.println("Złe dane");
-            System.out.println(
-                    "Email is " + (emailPattern.matcher(email.getText()).matches()
-                            ? "valid"
-                            : "invalid")
-            );
-        }
-    };
-
     public RegisterController() {
         super();
 
@@ -60,23 +40,82 @@ public class RegisterController extends TilePane {
             loader.setController(this);
             loader.load();
 
-            registerButton.addEventHandler(ActionEvent.ACTION, registerHandler);
+            registerButton.addEventHandler(ActionEvent.ACTION, this::registerHandler);
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
     }
 
+    // co z tym
     @FXML
     private void onRegister(ActionEvent event) {
         // TODO: Baza danych
-        if(emailPattern.matcher(email.getText()).matches() && password.getLength()>0 && login.getLength()>0 && password.equals(confirmPassword)){
+        if (emailPattern.matcher(email.getText()).matches() && password.getLength() > 0 && login.getLength() > 0 && password.equals(confirmPassword)) {
             new PlayerDao().save(new Player(login.toString(), email.toString(), password.toString()));
         }
         System.out.println(
                 "Email is " + (emailPattern.matcher(email.getText()).matches()
-                    ? "valid"
-                    : "invalid")
+                        ? "valid"
+                        : "invalid")
         );
+    }
+
+    private void error(String header, String content) {
+        var alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void registerHandler(ActionEvent e) {
+        PlayerDao registerPlayer = new PlayerDao();
+
+        var emailText = email.getText();
+        var loginText = login.getText();
+        var passwordText = password.getText();
+        var confirmText = confirmPassword.getText();
+
+        var errorMessage = this.checkData(emailText, loginText, passwordText, confirmText);
+
+        if (errorMessage.isPresent()) {
+            var messagePair = errorMessage.get();
+            this.error(messagePair.getKey(), messagePair.getValue());
+            return;
+        }
+
+        if (registerPlayer.checkIfTaken(loginText, emailText)) {
+            this.error("Blad bazy danych", "Konto o danym loginie lub mailu jest zajęte.");
+            return;
+        }
+
+        var playerOptional = registerPlayer.create(login.getText(), email.getText(), password.getText());
+
+        if (playerOptional.isPresent()) {
+            var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
+            this.fireEvent(event);
+        } else {
+            this.error("Blad bazy danych",
+                    "Nie udalo sie zarejestrowac uzytkownika. Sprobuj ponownie pozniej");
+        }
+    }
+
+    private Optional<Pair<String, String>> checkData(String emailText, String loginText, String passwordText, String confrimText) {
+        if (emailText.isBlank())
+            return Optional.of(new Pair<>(invalidDataHeader, "Pole `login` jest wymagane."));
+
+        if (loginText.isBlank())
+            return Optional.of(new Pair<>(invalidDataHeader, "Pole `email` jest wymagane."));
+
+        if (passwordText.isBlank() || confrimText.isBlank())
+            return Optional.of(new Pair<>(invalidDataHeader, "Pola `haslo` i `potwierdz haslo` sa wymagane."));
+
+        if (!passwordText.equals(confrimText))
+            return Optional.of(new Pair<>(invalidDataHeader, "Pola `haslo` i `potwierdz haslo` maja rozne wartosci."));
+
+        if (!emailPattern.matcher(emailText).matches())
+            return Optional.of(new Pair<>(invalidDataHeader, "Pole `email` jest niepoprawnie zbudowane."));
+
+        return Optional.empty();
     }
 }

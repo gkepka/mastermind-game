@@ -6,22 +6,32 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
 public class GameSelectionController extends AnchorPane {
+
+    private static final Integer[] difficultyLevels = { 5, 6, 7, 8, 9, 10, 11, 12 };
+
+    @FXML
+    private Button newGame;
+    @FXML
+    private ChoiceBox<Integer> difficulty;
+
     private final EventHandler<ActionEvent> onNewGame = e -> {
         // TODO: jakoś trzeba poinformować MasterMind'a o wybranym poziomie trudności
         // żeby przygotował i zastosował odpowiedni model
         // można np. zrobić pole w ViewUpdateEvent
 
+        var gameDifficulty = difficulty.getValue();
+        // teraz tylko przekazać wyżej
+
         var event = new ViewUpdateEvent(ViewUpdateEvent.NEW_GAME);
+        event.setParameter("gameDifficulty", gameDifficulty);
         this.fireEvent(event);
     };
-
-    @FXML
-    private Button newGame;
 
     public GameSelectionController() {
         try {
@@ -33,6 +43,8 @@ public class GameSelectionController extends AnchorPane {
             loader.load();
 
             newGame.addEventHandler(ActionEvent.ACTION, onNewGame);
+            difficulty.getItems().addAll(difficultyLevels);
+            difficulty.setValue(12);
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);

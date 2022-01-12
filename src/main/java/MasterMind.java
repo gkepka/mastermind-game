@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import model.Game;
 import model.Player;
 
-import javax.swing.text.View;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -26,16 +25,19 @@ public class MasterMind extends Application {
     private GameOverController gameOverController;
     private Stage primaryStage;
 
-    private EventHandler<ViewUpdateEvent> onLogin = e -> {
+    private final EventHandler<ViewUpdateEvent> onLogin = e -> {
         this.configureStage(this.primaryStage, this.gameSelectionController);
     };
 
-    private EventHandler<ViewUpdateEvent> onNewGame = e -> {
+    private final EventHandler<ViewUpdateEvent> onNewGame = e -> {
         // TODO: tutaj utworzenie nowej gry i zastosowanie modelu
-        this.configureStage(this.primaryStage, this.gameController);
+        e.getParameter("gameDifficulty").ifPresent(difficulty -> {
+            System.out.printf("Game difficulty: %d%n", difficulty);
+            this.configureStage(this.primaryStage, this.gameController);
+        });
     };
 
-    private EventHandler<ViewUpdateEvent> onGameOver = e -> {
+    private final EventHandler<ViewUpdateEvent> onGameOver = e -> {
         this.configureStage(this.primaryStage, this.gameOverController);
     };
 

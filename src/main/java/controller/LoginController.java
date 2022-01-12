@@ -6,12 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class LoginController extends TilePane {
     @FXML
@@ -24,9 +24,28 @@ public class LoginController extends TilePane {
     private final EventHandler<ActionEvent> loginHandler = e -> {
         // TODO: połączenie z bazą
         PlayerDao loginPlayer = new PlayerDao();
-        if(loginPlayer.loginCheck(login.getText(),password.getText()).isPresent()) {
+
+        var loginText = login.getText();
+        var passwordText = password.getText();
+
+        if (loginText.isBlank()) {
+            this.error("Podane dane sa niepoprawne", "Pole `login` jest wymagane.");
+            return;
+        }
+
+        if (passwordText.isBlank()) {
+            this.error("Podane dane sa niepoprawne", "Pole `haslo` jest wymagane.");
+            return;
+        }
+
+        var player = loginPlayer.loginCheck(loginText, passwordText);
+
+        if (player.isPresent()) {
             var event = new ViewUpdateEvent(ViewUpdateEvent.USER_LOGON);
             this.fireEvent(event);
+        } else {
+            this.error("Blad logowania",
+                    "Podany uzytkownik nie istnieje lub haslo jest niepoprawne. Sprobuj ponownie.");
         }
     };
 
@@ -44,5 +63,12 @@ public class LoginController extends TilePane {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
+    }
+
+    private Optional<ButtonType> error(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        return alert.showAndWait();
     }
 }

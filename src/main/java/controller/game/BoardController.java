@@ -1,10 +1,8 @@
-package controller;
+package controller.game;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import model.Board;
+import model.game.Board;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ public class BoardController extends VBox {
 
     public BoardController() {
         try {
-            var url = getClass().getResource("/view/boardView.fxml");
+            var url = getClass().getResource("/view/game/boardView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

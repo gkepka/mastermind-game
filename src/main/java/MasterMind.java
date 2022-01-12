@@ -1,7 +1,7 @@
 import controller.GameOverController;
 import controller.GameSelectionController;
 import controller.LoginRegisterController;
-import controller.GameController;
+import controller.game.GameController;
 
 import dao.ConnectionProvider;
 import dao.DatabaseInitializer;
@@ -14,7 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Game;
+import model.game.Game;
 
 import java.sql.SQLException;
 import java.util.Objects;

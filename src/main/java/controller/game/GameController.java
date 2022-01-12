@@ -1,11 +1,11 @@
-package controller;
+package controller.game;
 
 
 import events.GameFinishedEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import model.Game;
+import model.game.Game;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public class GameController extends BorderPane {
 
     public GameController() {
         try {
-            var url = getClass().getResource("/view/gameView.fxml");
+            var url = getClass().getResource("/view/game/gameView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

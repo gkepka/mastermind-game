@@ -1,14 +1,13 @@
-package controller;
+package controller.game;
 
-import events.PegClickedEvent;
+import events.game.PegClickedEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import model.CodePeg;
+import model.game.CodePeg;
 
 import java.io.IOException;
 
@@ -38,7 +37,7 @@ public class CodePegController extends VBox {
         super();
 
         try {
-            var url = getClass().getResource("/view/codePegView.fxml");
+            var url = getClass().getResource("/view/game/codePegView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

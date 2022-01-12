@@ -2,7 +2,7 @@ package events;
 
 import javafx.event.Event;
 import javafx.event.EventType;
-import model.Player;
+import model.game.Player;
 
 public class PlayerLoginEvent extends Event {
     public static final EventType<PlayerLoginEvent> PLAYER_LOGIN;

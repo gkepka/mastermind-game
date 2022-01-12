@@ -1,4 +1,4 @@
-package controller;
+package controller.game;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import model.HintPeg;
+import model.game.HintPeg;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class HintPegController extends VBox {
 
     public HintPegController() {
         try {
-            var url = getClass().getResource("/view/hintPegView.fxml");
+            var url = getClass().getResource("/view/game/hintPegView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

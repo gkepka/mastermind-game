@@ -8,7 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
 import javafx.util.Pair;
-import model.Player;
+import model.game.Player;
 
 import java.io.IOException;
 import java.util.Optional;

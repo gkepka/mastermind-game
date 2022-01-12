@@ -1,6 +1,6 @@
 package dao;
 
-import model.Player;
+import model.game.Player;
 
 import java.sql.*;
 import java.util.Optional;
@@ -79,13 +79,15 @@ public class PlayerDao {
 
             ResultSet rs = statement.executeQuery();
 
-            return Optional.of(
-                    new Player(
-                            rs.getString("login"),
-                            rs.getString("email"),
-                            rs.getString("password")
-                    )
-            );
+            if(!rs.isClosed()) {
+                return Optional.of(
+                        new Player(
+                                rs.getString("login"),
+                                rs.getString("email"),
+                                rs.getString("password")
+                        )
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
-package controller;
+package controller.game;
 
-import events.PegClickedEvent;
+import events.game.PegClickedEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,8 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.Code;
-import model.Guess;
+import model.game.Code;
+import model.game.Guess;
 
 import java.io.IOException;
 
@@ -57,7 +57,7 @@ public class GuessController extends HBox {
 
     public GuessController() {
         try {
-            var url = getClass().getResource("/view/guessView.fxml");
+            var url = getClass().getResource("/view/game/guessView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

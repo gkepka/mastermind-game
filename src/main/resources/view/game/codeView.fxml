@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import controller.CodePegController?>
+<?import controller.game.CodePegController?>
 <fx:root type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
          maxHeight="40.0" maxWidth="160.0" minHeight="40.0"

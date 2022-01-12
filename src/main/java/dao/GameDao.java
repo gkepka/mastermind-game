@@ -1,7 +1,7 @@
 package dao;
 
-import model.Game;
-import model.Player;
+import model.game.Game;
+import model.game.Player;
 
 import java.sql.*;
 import java.util.Optional;

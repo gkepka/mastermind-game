@@ -10,5 +10,5 @@
          prefWidth="356.0"
          xmlns:fx="http://javafx.com/fxml/1"
          style="-fx-background-color: #B49A67">
-
+    <!-- Guesses are added here dynamically in BoardController -->
 </fx:root>

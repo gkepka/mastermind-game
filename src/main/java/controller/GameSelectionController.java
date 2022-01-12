@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.Player;
+import model.game.Player;
 
 import java.io.IOException;
 

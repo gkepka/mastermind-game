@@ -5,12 +5,12 @@ import controller.game.GameController;
 
 import dao.ConnectionProvider;
 import dao.DatabaseInitializer;
+import dao.GameDao;
 import events.GameExitEvent;
 import events.GameSelectionEvent;
 import events.PlayerLoginEvent;
 import events.GameFinishedEvent;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,40 +20,45 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class MasterMind extends Application {
-    private GameController gameController;
-    private LoginRegisterController loginRegisterController;
-    private GameSelectionController gameSelectionController;
-    private GameOverController gameOverController;
+    private final GameController gameController;
+    private final LoginRegisterController loginRegisterController;
+    private final GameSelectionController gameSelectionController;
+    private final GameOverController gameOverController;
     private Stage primaryStage;
-
-    private final EventHandler<PlayerLoginEvent> onLogin = e -> {
-        this.gameSelectionController.setModel(e.getPlayer());
-        this.configureStage(this.primaryStage, this.gameSelectionController);
-    };
-
-    private final EventHandler<GameSelectionEvent> onNewGame = e -> {
-        var player = this.gameSelectionController.getModel();
-
-        if (player != null) {
-            var game = new Game(player, e.getGameDifficulty());
-            this.gameController.setModel(game);
-            this.configureStage(this.primaryStage, this.gameController);
-        }
-    };
-
-    private final EventHandler<GameFinishedEvent> onGameOver = e -> {
-        this.gameOverController.setResultValue(e.getResult());
-        this.configureStage(this.primaryStage, this.gameOverController);
-    };
-
-    private final EventHandler<GameExitEvent> onGameExit = e ->
-        this.configureStage(this.primaryStage, this.gameSelectionController);
 
     public MasterMind() {
         this.gameController = new GameController();
         this.loginRegisterController = new LoginRegisterController();
         this.gameSelectionController = new GameSelectionController();
         this.gameOverController = new GameOverController();
+    }
+
+    private void onLogin(PlayerLoginEvent event) {
+        this.gameSelectionController.setModel(event.getPlayer());
+        this.configureStage(this.primaryStage, this.gameSelectionController);
+    }
+
+    private void onGameOver(GameFinishedEvent event) {
+        this.gameOverController.setResultValue(event.getResult());
+        this.configureStage(this.primaryStage, this.gameOverController);
+    }
+
+    private void onGameExit(GameExitEvent event) {
+        var game = this.gameController.getModel();
+        var gameDao = new GameDao();
+        gameDao.save(game);
+
+        this.configureStage(this.primaryStage, this.gameSelectionController);
+    }
+
+    private void onNewGame(GameSelectionEvent event) {
+        var player = this.gameSelectionController.getModel();
+
+        if (player != null) {
+            var game = new Game(player, event.getGameDifficulty());
+            this.gameController.setModel(game);
+            this.configureStage(this.primaryStage, this.gameController);
+        }
     }
 
     @Override
@@ -66,32 +71,32 @@ public class MasterMind extends Application {
             e.printStackTrace();
         }
 
-        primaryStage.addEventHandler(PlayerLoginEvent.PLAYER_LOGIN, onLogin);
-        primaryStage.addEventHandler(GameSelectionEvent.GAME_SELECTION, onNewGame);
-        primaryStage.addEventHandler(GameFinishedEvent.GAME_FINISHED, onGameOver);
-        primaryStage.addEventHandler(GameExitEvent.GAME_EXIT, onGameExit);
+        primaryStage.addEventHandler(PlayerLoginEvent.PLAYER_LOGIN, this::onLogin);
+        primaryStage.addEventHandler(GameSelectionEvent.GAME_SELECTION, this::onNewGame);
+        primaryStage.addEventHandler(GameFinishedEvent.GAME_FINISHED, this::onGameOver);
+        primaryStage.addEventHandler(GameExitEvent.GAME_EXIT, this::onGameExit);
+        primaryStage.setTitle("MasterMind \uD83E\uDD76"); // 🥶
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            logout(primaryStage);
+        });
+
         configureStage(primaryStage, loginRegisterController);
     }
 
     private void configureStage(Stage primaryStage, Parent rootLayout) {
         var rootScene = rootLayout.getScene();
 
-        var scene = rootScene == null
-                ? new Scene(rootLayout)
-                : rootScene;
+        if (rootScene == null) {
+            rootScene = new Scene(rootLayout);
 
-        var url = getClass().getResource("css/styles.css");
-        var stylesheet = Objects.requireNonNull(url).toExternalForm();
-        scene.getStylesheets().add(stylesheet);
+            var url = getClass().getResource("css/styles.css");
+            var stylesheet = Objects.requireNonNull(url).toExternalForm();
+            rootScene.getStylesheets().add(stylesheet);
+        }
 
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("MasterMind \uD83E\uDD76"); // 🥶
+        primaryStage.setScene(rootScene);
         primaryStage.show();
-
-        primaryStage.setOnCloseRequest(event -> {
-            event.consume();
-            logout(primaryStage);
-        });
     }
 
     private void logout(Stage stage) {

@@ -12,6 +12,7 @@ import java.io.IOException;
 public class GameController extends BorderPane {
     @FXML
     private BoardController boardController;
+    private Game game;
 
     public GameController() {
         try {
@@ -29,9 +30,16 @@ public class GameController extends BorderPane {
     }
 
     public void setModel(Game game) {
+        this.game = game;
         boardController.setModel(game.getBoard());
 
-        game.overProperty().addListener(over -> this.fireEvent(new GameFinishedEvent(game.getResult())));
+        game.overProperty().addListener(
+                over -> this.fireEvent(new GameFinishedEvent(game.getResult()))
+        );
+    }
+
+    public Game getModel() {
+        return this.game;
     }
 
 }

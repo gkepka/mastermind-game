@@ -1,5 +1,6 @@
 package controller;
 
+import dao.GameDao;
 import events.GameSelectionEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,13 +27,8 @@ public class GameSelectionController extends AnchorPane {
     private Button newGame;
     @FXML
     private ChoiceBox<Integer> difficulty;
-
-    private final EventHandler<ActionEvent> onNewGame = e -> {
-        var gameDifficulty = difficulty.getValue();
-        var event = new GameSelectionEvent(gameDifficulty);
-
-        this.fireEvent(event);
-    };
+    @FXML
+    private Label playerAverage;
 
     public GameSelectionController() {
         try {
@@ -43,7 +39,7 @@ public class GameSelectionController extends AnchorPane {
             loader.setController(this);
             loader.load();
 
-            newGame.addEventHandler(ActionEvent.ACTION, onNewGame);
+            newGame.addEventHandler(ActionEvent.ACTION, this::onNewGame);
             difficulty.getItems().addAll(difficultyLevels);
             difficulty.setValue(difficultyLevels[0]);
         } catch (IOException ex) {
@@ -52,12 +48,23 @@ public class GameSelectionController extends AnchorPane {
         }
     }
 
+    private void onNewGame(ActionEvent event) {
+        var gameDifficulty = difficulty.getValue();
+        var gameSelectionEvent = new GameSelectionEvent(gameDifficulty);
+
+        this.fireEvent(gameSelectionEvent);
+    }
+
     public Player getModel() {
         return player;
     }
 
     public void setModel(Player player) {
+        var gameDao = new GameDao();
         this.player = player;
         playerLabel.setText(String.format("Witaj %s!", player.getLogin()));
+
+        double average = gameDao.getPlayerStatistics(player);
+        playerAverage.setText(String.format("Twoja średnia: %f", average));
     }
 }

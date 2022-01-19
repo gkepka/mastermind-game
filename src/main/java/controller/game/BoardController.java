@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class BoardController extends VBox {
-    private List<GuessController> guesses;
     private Board board;
 
     public BoardController() {
@@ -29,7 +28,7 @@ public class BoardController extends VBox {
 
     public void setModel(Board board) {
         this.board = board;
-        guesses = new ArrayList<>(board.getGuessCount());
+        List<GuessController> guesses = new ArrayList<>(board.getGuessCount());
 
         for (var guess : board.getGuesses()) {
             var guessController = new GuessController();

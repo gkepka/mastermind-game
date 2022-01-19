@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.game.Game;
+import notification.MailSender;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -50,6 +51,10 @@ public class MasterMind extends Application {
 
         this.gameSelectionController.updateRanking();
         this.configureStage(this.primaryStage, this.gameSelectionController);
+        String address = this.gameSelectionController.getModel().getEmail();
+        String gameOverMessage = "You earned " + game.getResult() + " points at Mrozon-Mastermind game.";
+        MailSender.getInstance().sendMail(address, gameOverMessage);
+
     }
 
     private void onNewGame(GameSelectionEvent event) {

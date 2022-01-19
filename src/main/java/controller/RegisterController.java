@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
 import javafx.util.Pair;
 import model.game.Player;
+import notification.MailSender;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -90,6 +91,7 @@ public class RegisterController extends TilePane {
         }
 
         var playerOptional = registerPlayer.create(login.getText(), email.getText(), password.getText());
+        MailSender.getInstance().sendMail(email.getText(), "Your account was registered in Mrozon-Mastermind Game");
 
         if (playerOptional.isPresent()) {
             var event = new PlayerLoginEvent(playerOptional.get());

@@ -48,6 +48,7 @@ public class MasterMind extends Application {
         var gameDao = new GameDao();
         gameDao.save(game);
 
+        this.gameSelectionController.updateRanking();
         this.configureStage(this.primaryStage, this.gameSelectionController);
     }
 

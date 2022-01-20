@@ -26,7 +26,7 @@ public class PlayerDao {
 
             ResultSet rs = statement.getGeneratedKeys();
             while (rs.next()) {
-                player.setId(rs.getLong(1));
+                player.setId(rs.getLong("player_id"));
             }
             rs.close();
 
@@ -84,6 +84,7 @@ public class PlayerDao {
             if(!rs.isClosed() && bCryptPasswordEncoder.matches(password, rs.getString("password"))) {
                 return Optional.of(
                         new Player(
+                                rs.getLong("player_id"),
                                 rs.getString("login"),
                                 rs.getString("email"),
                                 rs.getString("password")

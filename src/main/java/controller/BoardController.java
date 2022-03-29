@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController extends VBox {
-
     private Board board;
     private List<GuessController> guesses;
     private GuessController currentGuess;

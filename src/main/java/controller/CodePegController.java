@@ -49,13 +49,11 @@ public class CodePegController extends VBox {
 
     public void setModel(CodePeg peg) {
         this.peg = peg;
-        peg.activate();
-        pegButton.fillProperty().bind(peg.colorObjectProperty());
-        isActive.bind(peg.isActiveObjectProperty());
-        isActive.addListener((observable, oldValue, newValue) -> {
-            if(newValue != null && !newValue) {
-                pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
-            }
-        });
+        pegButton.fillProperty().bind(peg.getColorProperty());
+    }
+
+    public void deactivate() {
+        pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
+
     }
 }

@@ -20,7 +20,6 @@ public class Guess {
         this.isActive = new SimpleObjectProperty<>(false);
     }
 
-
     public void verifyGuess() {
         if (verified) return;
         myCode.deactivatePegs();

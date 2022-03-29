@@ -17,7 +17,7 @@ public class CodePeg {
         isActive = new SimpleObjectProperty<>(false);
     }
 
-    public ObjectProperty<Color> colorObjectProperty() {
+    public ObjectProperty<Color> getColorProperty() {
         return color;
     }
 

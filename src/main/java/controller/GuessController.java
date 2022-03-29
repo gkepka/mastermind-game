@@ -1,34 +1,59 @@
 package controller;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+
+import events.PegClickedEvent;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.SVGPath;
-import model.Board;
+import javafx.scene.layout.VBox;
+import model.Code;
 import model.Guess;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuessController extends HBox {
 
     @FXML
-    private SVGPath checkmark;
+    private VBox checkmark;
+    @FXML
+    private CodeController codeController;
+    @FXML
+    private HintPegController hintPegController;
 
+
+    private static final String CSS_CLASS = "currentGuess";
+    private final IntegerProperty touchedCodePegs = new SimpleIntegerProperty(0);
     private Guess guess;
-    private Board board;
-    private List<CodePegController> codePegs;
-    private EventHandler check = event -> {
-        if (guess == null || guess.isVerified()) return;
+
+    private final EventHandler<MouseEvent> checkmarkClickedHandler = event -> {
+        if (guess == null || !guess.isActive()) return;
         guess.verifyGuess();
-        System.out.println("weryfikacja działa");
+        codeController.deactivate();
+        removeCheckmarkClickedHandler();
+    };
+
+    private final EventHandler<PegClickedEvent> pegClickedHandler = event -> {
+        touchedCodePegs.set(touchedCodePegs.get() + 1);
+        if (touchedCodePegs.get() == 4) {
+            System.out.println("Teraz się powinien checkmark pojawić.");
+            removePegClickedHandler();
+        }
+    };
+
+    // Jak obecny guess stanie się currentGuess (jego activeProperty zrobi się true), to zmień kolor tła.
+    private final ChangeListener<Boolean> backgroundChangeHandler = (observable, oldValue, newValue) -> {
+        if(newValue) {
+            this.getStyleClass().add(CSS_CLASS);
+            codeController.activate();
+        }
+        else {
+            this.getStyleClass().remove(CSS_CLASS);
+        }
     };
 
     private ObjectProperty<Boolean> isActive;
@@ -40,36 +65,47 @@ public class GuessController extends HBox {
 
             loader.setRoot(this);
             loader.setController(this);
+            loader.setClassLoader(getClass().getClassLoader());
             loader.load();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
-
-    // initialize() jest zawsze wołane zaraz po konstruktorze, o ile jest zdefioniowane
-    public void initialize() {
-        codePegs = new ArrayList<>();
-        for (Node child : this.getChildren()) {
-            if (child instanceof CodePegController) {
-                codePegs.add((CodePegController) child);
-            }
-        }
-        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, check);
-        isActive = new SimpleObjectProperty<>();
-    }
-
-    public void setModel(Board board, Guess guess) {
-        this.board = board;
+  
+    public void setModel(Guess guess) {
         this.guess = guess;
-        this.guess.activate();
-        isActive.bind(guess.isActiveObjectProperty());
-        isActive.addListener((observable, oldValue, newValue) -> {
-            if(newValue != null && !newValue) {
-                checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, check);
-            }
-        });
-        // TODO: Wymyśleć lepszy sposób na ustawianie modeli
-        codePegs.forEach(codePeg -> codePeg.setModel(guess.getMyCode().getCodePeg(codePegs.indexOf(codePeg))));
+        addHandlers();
+
+        // handler wywoływany z palca
+        // to wygląda idiotycznie, ale nie wiem w jaki lepszy sposób obsłużyć pierwszy przypadek.
+        backgroundChangeHandler.changed(guess.activeProperty(), false, guess.isActive());
+
+        checkmark.visibleProperty().bind(
+                // checkmark appears if the guess is active (current) and all pegs have been clicked once
+                (guess.activeProperty().and(touchedCodePegs.isEqualTo(Code.PEGS_COUNT)))
+        );
+
+        codeController.setModel(guess.getMyCode());
+        hintPegController.setModel(guess.getHints());
     }
 
+    private void addHandlers() {
+        guess.activeProperty().addListener(backgroundChangeHandler);
+        checkmark.addEventHandler(MouseEvent.MOUSE_CLICKED, checkmarkClickedHandler);
+        this.addEventHandler(PegClickedEvent.PEG_CLICKED, pegClickedHandler); // metoda VBoxa
+    }
+
+    private void removeCheckmarkClickedHandler() {
+        checkmark.removeEventHandler(MouseEvent.MOUSE_CLICKED, checkmarkClickedHandler);
+    }
+
+    private void removePegClickedHandler() {
+        this.removeEventHandler(PegClickedEvent.PEG_CLICKED, pegClickedHandler);
+    }
+
+    public void deactivate() {
+        removeCheckmarkClickedHandler();
+        removePegClickedHandler();
+        guess.activeProperty().removeListener(backgroundChangeHandler);
+    }
 }

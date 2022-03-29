@@ -1,6 +1,7 @@
 package model;
 
 public class Player {
+    // TODO: email, hash hasła
     private String login;
     private String name;
 

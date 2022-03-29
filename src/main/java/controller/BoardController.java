@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController extends VBox {
-    private Board board;
     private List<GuessController> guesses;
-    private GuessController currentGuess;
-    private IntegerProperty guessCount;
+    private Board board;
 
     public BoardController() {
         try {
@@ -25,36 +23,22 @@ public class BoardController extends VBox {
 
             loader.setRoot(this);
             loader.setController(this);
+            loader.setClassLoader(getClass().getClassLoader());
             loader.load();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public void initialize() {
-        guesses = new ArrayList<>();
-        for (Node child : this.getChildren()) {
-            if (child instanceof GuessController) {
-                guesses.add((GuessController) child);
-            }
-        }
-        guessCount = new SimpleIntegerProperty();
-    }
 
     public void setModel(Board board) {
         this.board = board;
-        guessCount.bind(board.getCurrentGuessProperty());
-        guessCount.addListener((observable, oldValue, newValue) -> {
-            if (oldValue != null) {
-                board.deactivateGuess((Integer) oldValue);
-            }
-            if (newValue != null && (Integer) newValue < guesses.size()) {
-                currentGuess = guesses.get((Integer) newValue);
-                currentGuess.setModel(board, board.getGuess(guessCount.get()));
-            }
-        });
-        currentGuess = guesses.get((Integer) guessCount.get());
-        currentGuess.setModel(board, board.getGuess(guessCount.get()));
+        guesses = new ArrayList<>(board.getGuessCount());
+        for (int i = 0; i<board.getGuessCount(); i++) {
+            var guessController = new GuessController();
+            guessController.setModel(board.getGuess(i));
+            guesses.add(guessController);
+        }
+        this.getChildren().addAll(guesses);
     }
-
 }

@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Board;
+import model.Game;
+import model.Player;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -18,11 +20,14 @@ public class MasterMind extends Application {
             // load layout from FXML file
             var loader = new FXMLLoader();
             loader.setLocation(MasterMind.class.getResource("view/mainView.fxml"));
+            loader.setClassLoader(getClass().getClassLoader());
             BorderPane rootLayout = loader.load();
 
             // set initial data into controller
             MainController controller = loader.getController();
-            controller.setModel(new Board());
+            // TODO: gra będzie tworzona po zalogowaniu się i wybraniu poziomu trudności w menu
+            Game game = new Game(new Player("test123", "test"), 12);
+            controller.setModel(game);
             // add layout to a scene and show them all
             configureStage(primaryStage, rootLayout);
             primaryStage.show();

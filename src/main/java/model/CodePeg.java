@@ -4,17 +4,19 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
 
 public class CodePeg {
     private final ObjectProperty<Color> color;
-    private PegColor pegColor;
-    private final ObjectProperty<Boolean> isActive;
+    private CodePegColor codePegColor;
 
-    public CodePeg(Code myGuess) {
-        pegColor = PegColor.GRAY;
-        color = new SimpleObjectProperty<>(pegColor.toColor());
-        isActive = new SimpleObjectProperty<>(false);
+    public CodePeg() {
+        codePegColor = CodePegColor.GRAY;
+        color = new SimpleObjectProperty<>(codePegColor.toColor());
+    }
+
+    public CodePeg(CodePegColor codePegColor) {
+        this.codePegColor = codePegColor;
+        color = new SimpleObjectProperty<>(codePegColor.toColor());
     }
 
     public ObjectProperty<Color> getColorProperty() {
@@ -25,24 +27,26 @@ public class CodePeg {
         return color.get();
     }
 
-    public ObjectProperty<Boolean> isActiveObjectProperty() {
-        return isActive;
+    public void nextColor() {
+        setColor(codePegColor.next());
     }
 
-    public Boolean isActive() {
-        return isActive.get();
+    public void prevColor() {
+        setColor(codePegColor.prev());
     }
 
-    public void activate() {
-        isActive.setValue(true);
+    private void setColor(CodePegColor codePegColor) {
+        this.codePegColor = codePegColor;
+        this.color.setValue(codePegColor.toColor());
     }
 
-    public void deactivate() {
-        isActive.setValue(false);
+    @Override
+    public String toString() {
+        return codePegColor.name();
     }
 
-    public void cycleColor() {
-        pegColor = pegColor.next();
-        this.color.setValue(pegColor.toColor());
+
+    public boolean isSameColor(CodePeg other) {
+        return other.getColor().equals(getColor());
     }
 }

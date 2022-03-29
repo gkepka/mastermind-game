@@ -1,14 +1,16 @@
 package model;
 
 public class Game {
-    private Player player;
-    private Board board;
-    private int result;
+    public static final int INITIAL_POINTS = 1000;
 
-    public Game(Player player, Board board, int result){
+    private final Player player;
+    private final Board board;
+    private int result = INITIAL_POINTS;
+    private boolean gameOver = false;
+
+    public Game(Player player, int guessCount){
         this.player = player;
-        this.board = board;
-        this.result = result;
+        this.board = new Board(guessCount, this);
     }
 
     public int getResult() {
@@ -21,5 +23,20 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+        calculatePoints();
+        System.out.println("Game over!");
+        System.out.println("Points: " + result);
+    }
+
+    private void calculatePoints() {
+        result -= 1000*(((double) board.getFailedGuesses())/ board.getGuessCount());
     }
 }

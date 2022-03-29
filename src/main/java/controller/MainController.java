@@ -3,6 +3,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import model.Board;
+import model.Game;
 
 public class MainController {
 
@@ -14,8 +15,8 @@ public class MainController {
 
     }
 
-    public void setModel(Board board) {
-        boardController.setModel(board);
+    public void setModel(Game game) {
+        boardController.setModel(game.getBoard());
     }
 
 }

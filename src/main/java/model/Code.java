@@ -12,11 +12,19 @@ public class Code {
     private final List<CodePeg> codePegs = new ArrayList<>(PEGS_COUNT);
     private final BooleanProperty finalised = new SimpleBooleanProperty(false);
 
-    public Code() {
-        for (int i = 0; i < PEGS_COUNT; i++) {
-            codePegs.add(new CodePeg(this));
+    public Code(boolean isGuess) {
+        if (isGuess) {
+            for (int i = 0; i < PEGS_COUNT; i++) {
+                codePegs.add(new CodePeg());
+            }
+        }
+        else {
+            for (int i = 0; i < PEGS_COUNT; i++) {
+                codePegs.add(new CodePeg(CodePegColor.getRandomColor()));
+            }
         }
     }
+
 
     public CodePeg getCodePeg(int index) {
         return codePegs.get(index);
@@ -34,9 +42,16 @@ public class Code {
         return finalised;
     }
 
-    public void deactivatePegs() {
-        for (CodePeg peg : codePegs) {
-            peg.deactivate();
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (var peg : codePegs) {
+            result.append(peg.toString()).append(" ");
         }
+        return result.toString();
+    }
+
+    public List<CodePeg> getCodePegs() {
+        return codePegs;
     }
 }

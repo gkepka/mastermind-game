@@ -1,10 +1,10 @@
 package controller;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import events.PegClickedEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -18,14 +18,23 @@ public class CodePegController extends VBox {
     private Circle pegButton;
 
     private CodePeg peg;
+    private boolean clicked = false;
 
-    private EventHandler cycleColor = (e) -> {
-            if (CodePegController.this.peg == null) return;
-            CodePegController.this.peg.cycleColor();
+    private final EventHandler<MouseEvent> cycleColor = event -> {
+            if (peg == null) return;
+            if (event.getButton() == MouseButton.PRIMARY) peg.nextColor();
+            else if (event.getButton() == MouseButton.SECONDARY) peg.prevColor();
+            if(!clicked) {
+                System.out.println("Event fired!");
+                this.fireEvent(new PegClickedEvent());
+                clicked = true;
+            }
     };
 
-    private ObjectProperty<Boolean> isActive;
-
+    /* TODO:
+        Całą tą klase można w sumie usunąć, razem z jej widokiem (ale nie model).
+        wtedy ten PegClickedEvent też będzie nie potrzebny.
+     */
     public CodePegController() {
         super();
 
@@ -41,12 +50,6 @@ public class CodePegController extends VBox {
         }
     }
 
-    // @FXML
-    public void initialize() {
-        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
-        isActive = new SimpleObjectProperty<>();
-    }
-
     public void setModel(CodePeg peg) {
         this.peg = peg;
         pegButton.fillProperty().bind(peg.getColorProperty());
@@ -55,5 +58,9 @@ public class CodePegController extends VBox {
     public void deactivate() {
         pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
 
+    }
+
+    public void activate() {
+        pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
     }
 }

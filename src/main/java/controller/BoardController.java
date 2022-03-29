@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +29,7 @@ public class BoardController extends VBox {
             throw new RuntimeException(ex);
         }
     }
+
 
     public void setModel(Board board) {
         this.board = board;

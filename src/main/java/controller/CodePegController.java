@@ -57,6 +57,7 @@ public class CodePegController extends VBox {
 
     public void deactivate() {
         pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
+
     }
 
     public void activate() {

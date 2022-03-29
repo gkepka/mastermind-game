@@ -1,5 +1,6 @@
 package controller;
 
+
 import events.PegClickedEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -55,6 +56,8 @@ public class GuessController extends HBox {
         }
     };
 
+    private ObjectProperty<Boolean> isActive;
+
     public GuessController() {
         try {
             var url = getClass().getResource("/view/guessView.fxml");
@@ -68,7 +71,7 @@ public class GuessController extends HBox {
             throw new RuntimeException(ex);
         }
     }
-
+  
     public void setModel(Guess guess) {
         this.guess = guess;
         addHandlers();

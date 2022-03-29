@@ -26,6 +26,7 @@ public class BoardController extends VBox {
         }
     }
 
+
     public void setModel(Board board) {
         this.board = board;
         List<GuessController> guesses = new ArrayList<>(board.getGuessCount());

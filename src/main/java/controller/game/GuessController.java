@@ -55,6 +55,8 @@ public class GuessController extends HBox {
         }
     };
 
+    private ObjectProperty<Boolean> isActive;
+
     public GuessController() {
         try {
             var url = getClass().getResource("/view/game/guessView.fxml");
@@ -68,7 +70,7 @@ public class GuessController extends HBox {
             throw new RuntimeException(ex);
         }
     }
-
+  
     public void setModel(Guess guess) {
         this.guess = guess;
         addHandlers();

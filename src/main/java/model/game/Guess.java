@@ -2,7 +2,6 @@ package model.game;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 

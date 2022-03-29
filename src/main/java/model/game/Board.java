@@ -1,5 +1,8 @@
 package model.game;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,6 +83,7 @@ public class Board {
         } else {
             game.finishGame(true);
         }
+
     }
 
     public Guess getGuess(int index) {

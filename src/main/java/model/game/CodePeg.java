@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -44,7 +44,6 @@ public class CodePeg {
     public String toString() {
         return codePegColor.name();
     }
-
 
     public boolean isSameColor(CodePeg other) {
         return other.getColor().equals(getColor());

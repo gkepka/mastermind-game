@@ -1,14 +1,13 @@
-package controller;
+package controller.game;
 
-import events.PegClickedEvent;
+import events.game.PegClickedEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import model.CodePeg;
+import model.game.CodePeg;
 
 import java.io.IOException;
 
@@ -22,24 +21,23 @@ public class CodePegController extends VBox {
 
     private final EventHandler<MouseEvent> cycleColor = event -> {
             if (peg == null) return;
-            if (event.getButton() == MouseButton.PRIMARY) peg.nextColor();
-            else if (event.getButton() == MouseButton.SECONDARY) peg.prevColor();
-            if(!clicked) {
-                System.out.println("Event fired!");
+
+            switch (event.getButton()) {
+                case PRIMARY -> peg.nextColor();
+                case SECONDARY -> peg.prevColor();
+            }
+
+            if (!clicked) {
                 this.fireEvent(new PegClickedEvent());
                 clicked = true;
             }
     };
 
-    /* TODO:
-        Całą tą klase można w sumie usunąć, razem z jej widokiem (ale nie model).
-        wtedy ten PegClickedEvent też będzie nie potrzebny.
-     */
     public CodePegController() {
         super();
 
         try {
-            var url = getClass().getResource("/view/codePegView.fxml");
+            var url = getClass().getResource("/view/game/codePegView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);

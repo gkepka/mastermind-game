@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

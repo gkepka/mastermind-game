@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import controller.GuessController?>
 
 <fx:root type="javafx.scene.layout.VBox"
          alignment="CENTER"
@@ -9,6 +8,7 @@
          minWidth="299.0"
          prefHeight="620.0"
          prefWidth="356.0"
-         xmlns:fx="http://javafx.com/fxml/1">
-
+         xmlns:fx="http://javafx.com/fxml/1"
+         style="-fx-background-color: #B49A67">
+    <!-- Guesses are added here dynamically in BoardController -->
 </fx:root>

@@ -1,7 +1,6 @@
-package controller;
+package controller.game;
 
-
-import events.PegClickedEvent;
+import events.game.PegClickedEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -11,8 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.Code;
-import model.Guess;
+import model.game.Code;
+import model.game.Guess;
 
 import java.io.IOException;
 
@@ -25,13 +24,14 @@ public class GuessController extends HBox {
     @FXML
     private HintPegController hintPegController;
 
-
     private static final String CSS_CLASS = "currentGuess";
     private final IntegerProperty touchedCodePegs = new SimpleIntegerProperty(0);
     private Guess guess;
 
     private final EventHandler<MouseEvent> checkmarkClickedHandler = event -> {
-        if (guess == null || !guess.isActive()) return;
+        if (guess == null || !guess.isActive())
+            return;
+
         guess.verifyGuess();
         codeController.deactivate();
         removeCheckmarkClickedHandler();
@@ -39,19 +39,18 @@ public class GuessController extends HBox {
 
     private final EventHandler<PegClickedEvent> pegClickedHandler = event -> {
         touchedCodePegs.set(touchedCodePegs.get() + 1);
+
         if (touchedCodePegs.get() == 4) {
-            System.out.println("Teraz się powinien checkmark pojawić.");
             removePegClickedHandler();
         }
     };
 
     // Jak obecny guess stanie się currentGuess (jego activeProperty zrobi się true), to zmień kolor tła.
     private final ChangeListener<Boolean> backgroundChangeHandler = (observable, oldValue, newValue) -> {
-        if(newValue) {
+        if (newValue) {
             this.getStyleClass().add(CSS_CLASS);
             codeController.activate();
-        }
-        else {
+        } else {
             this.getStyleClass().remove(CSS_CLASS);
         }
     };
@@ -60,7 +59,7 @@ public class GuessController extends HBox {
 
     public GuessController() {
         try {
-            var url = getClass().getResource("/view/guessView.fxml");
+            var url = getClass().getResource("/view/game/guessView.fxml");
             var loader = new FXMLLoader(url);
 
             loader.setRoot(this);
@@ -85,7 +84,7 @@ public class GuessController extends HBox {
                 (guess.activeProperty().and(touchedCodePegs.isEqualTo(Code.PEGS_COUNT)))
         );
 
-        codeController.setModel(guess.getMyCode());
+        codeController.setModel(guess.getCode());
         hintPegController.setModel(guess.getHints());
     }
 

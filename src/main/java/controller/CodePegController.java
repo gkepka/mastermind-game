@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,8 @@ public class CodePegController extends VBox {
             CodePegController.this.peg.cycleColor();
     };
 
+    private ObjectProperty<Boolean> isActive;
+
     public CodePegController() {
         super();
 
@@ -40,6 +44,7 @@ public class CodePegController extends VBox {
     // @FXML
     public void initialize() {
         pegButton.addEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
+        isActive = new SimpleObjectProperty<>();
     }
 
     public void setModel(CodePeg peg) {
@@ -49,5 +54,6 @@ public class CodePegController extends VBox {
 
     public void deactivate() {
         pegButton.removeEventHandler(MouseEvent.MOUSE_CLICKED, cycleColor);
+
     }
 }

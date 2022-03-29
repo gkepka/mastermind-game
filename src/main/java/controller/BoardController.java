@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,7 +16,7 @@ public class BoardController extends VBox {
     private Board board;
     private List<GuessController> guesses;
     private GuessController currentGuess;
-    private int guessCount = 0;
+    private IntegerProperty guessCount;
 
     public BoardController() {
         try {
@@ -36,23 +38,23 @@ public class BoardController extends VBox {
                 guesses.add((GuessController) child);
             }
         }
-        currentGuess = guesses.get(guessCount);
+        guessCount = new SimpleIntegerProperty();
     }
 
     public void setModel(Board board) {
         this.board = board;
-        currentGuess.setModel(board, board.getGuess(guessCount), this);
+        guessCount.bind(board.getCurrentGuessProperty());
+        guessCount.addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                board.deactivateGuess((Integer) oldValue);
+            }
+            if (newValue != null && (Integer) newValue < guesses.size()) {
+                currentGuess = guesses.get((Integer) newValue);
+                currentGuess.setModel(board, board.getGuess(guessCount.get()));
+            }
+        });
+        currentGuess = guesses.get((Integer) guessCount.get());
+        currentGuess.setModel(board, board.getGuess(guessCount.get()));
     }
 
-    public void nextGuess() {
-        guessCount++;
-        if (guessCount < guesses.size()) {
-            currentGuess.deactivate();
-            currentGuess = guesses.get(guessCount);
-            currentGuess.setModel(board, board.getGuess(guessCount), this);
-        } else {
-            // TODO: wyświetlanie kodu
-            System.out.println("Last check");
-        }
-    }
 }
